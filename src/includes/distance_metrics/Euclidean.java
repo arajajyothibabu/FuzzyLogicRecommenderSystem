@@ -7,6 +7,6 @@ import java.util.ArrayList;
  */
 public class Euclidean {
 
-    //public static double dissimilarityBetweenUser(ArrayList<>users)
+    //TODO:public static double dissimilarityBetweenUser(ArrayList<>users)
 
 }
