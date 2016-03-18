@@ -5,6 +5,6 @@ package controllers.membership_functions.trapezoidal;
  */
 public class TrapezoidalInput {
 
-    //TODO: Write input and output functions trapezoidal input ki output ki veerega ceate cheyal//names
-    //just like triangular package
+    //TODO: Write input and output functions
+
 }

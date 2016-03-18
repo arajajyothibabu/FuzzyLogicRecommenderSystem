@@ -30,7 +30,7 @@ public class TriangularInput {
             return (x - 2.5)/2.5;
     }
 
-    //Average rating to movie no need use this same branch todo all functions i mean only membership functions i will commit now
+    //Average rating to movie
 
     public static double avgRatingToMovie_low(double x){
         if(x < 0 || x >= 2.5)
