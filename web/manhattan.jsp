@@ -1,5 +1,5 @@
 <%@ page import ="java.sql.*" %>
-<%@ page import="includes.*" %>
+<%@ page import="controllers.*" %>
 <%
 int i;
     try{

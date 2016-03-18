@@ -1,4 +1,4 @@
-package includes.membership_functions.gaussian;
+package controllers.membership_functions.gaussian;
 
 /**
  * Created by Araja Jyothi Babu on 15-Mar-16.

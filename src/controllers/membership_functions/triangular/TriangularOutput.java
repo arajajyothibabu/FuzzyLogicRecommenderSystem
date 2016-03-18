@@ -1,4 +1,4 @@
-package includes.membership_functions.triangular;
+package controllers.membership_functions.triangular;
 
 /**
  * Created by Araja Jyothi Babu on 15-Mar-16.

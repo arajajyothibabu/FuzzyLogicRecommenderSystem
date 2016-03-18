@@ -1,4 +1,4 @@
-package includes.distance_metrics;
+package controllers.distance_metrics;
 
 /**
  * Created by Araja Jyothi Babu on 16-Mar-16.

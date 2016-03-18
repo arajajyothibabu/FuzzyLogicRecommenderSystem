@@ -1,5 +1,5 @@
 <%@ page import ="java.sql.*" %>
-<%@ page import="includes.*" %>
+<%@ page import="controllers.*" %>
 <%
     String userid = request.getParameter("uname");    
     String pwd = request.getParameter("pass");

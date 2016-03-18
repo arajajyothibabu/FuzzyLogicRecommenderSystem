@@ -1,6 +1,4 @@
-package includes.distance_metrics;
-
-import java.util.ArrayList;
+package controllers.distance_metrics;
 
 /**
  * Created by Araja Jyothi Babu on 15-Mar-16.
