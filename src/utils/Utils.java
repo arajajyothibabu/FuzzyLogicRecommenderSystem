@@ -1,6 +1,6 @@
 package utils;
 
-import models.User;
+import models.*;
 
 import java.sql.ResultSet;
 
@@ -12,7 +12,11 @@ public class Utils {
         return value==null? "0" : value;
     }
 
-    public User generateUser(ResultSet user) throws Exception {
+    public static User makeUser(ResultSet user) throws Exception {
         return new User(user.getInt(1), user.getString(2).charAt(0), user.getInt(3), user.getString(4), user.getInt(5));
     }
+
+    /*public static Movie makeMovie(ResultSet movie) throws Exception {
+        return new Movie(movie.getInt(1), user.getString(2).charAt(0), user.getInt(3), user.getString(4), user.getInt(5));
+    }*/
 }

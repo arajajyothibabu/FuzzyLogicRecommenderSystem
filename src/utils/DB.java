@@ -47,16 +47,20 @@ public class DB {
     public static ArrayList<User> getUsers(String userId) throws Exception {
         connection = openConnection();
         Statement statement = connection.createStatement();
-        ResultSet userList = statement.executeQuery("SELECT * FROM users where UserId != '" + userId + "'");
-        ArrayList<User> users = new ArrayList<>();
-        while(userList.next())
-            users.add(new )
+        ResultSet usersFromDB = statement.executeQuery("SELECT * FROM users where UserId != '" + userId + "'");
+        ArrayList<User> userList = new ArrayList<>();
+        while(usersFromDB.next())
+            userList.add(Utils.makeUser(usersFromDB));
+        return userList;
     }
 
-    public static ResultSet getUsers() throws Exception {
+    public static ArrayList<User> getUsers() throws Exception {
         connection = openConnection();
         Statement statement = connection.createStatement();
-        ResultSet userList = statement.executeQuery("SELECT * FROM users");
+        ResultSet usersFromDB = statement.executeQuery("SELECT * FROM users");
+        ArrayList<User> userList = new ArrayList<>();
+        while(usersFromDB.next())
+            userList.add(Utils.makeUser(usersFromDB));
         return userList;
     }
 
