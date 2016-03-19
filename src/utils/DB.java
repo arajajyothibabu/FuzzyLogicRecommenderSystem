@@ -3,6 +3,7 @@ package utils;
 /**
  * Created by Araja Jyothi Babu on 13-Mar-16.
  */
+import models.Rating;
 import models.User;
 
 import java.sql.*;
@@ -62,6 +63,16 @@ public class DB {
         while(usersFromDB.next())
             userList.add(Utils.makeUser(usersFromDB));
         return userList;
+    }
+
+    public static ArrayList<Rating> getRating() throws Exception {
+        connection = openConnection();
+        Statement statement = connection.createStatement();
+        ResultSet ratingsFromDB = statement.executeQuery("SELECT * FROM ratings");
+        ArrayList<Rating> ratingList = new ArrayList<>();
+        while(ratingsFromDB.next())
+            ratingList.add(Utils.makeRating(ratingsFromDB));
+        return ratingList;
     }
 
 }
