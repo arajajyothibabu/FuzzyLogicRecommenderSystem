@@ -17,34 +17,31 @@ public class GaussianInput {
     //Average rating by User
 
     public static double avgRatingByUser_low(double x){
+
         return exp(makeInputToExp(x, 0, 0.8493));
     }
 
     public static double avgRatingByUser_medium(double x){
-        //TODO:
-        return 0;
+
+        return exp(makeInputToExp(x, 2.5, 0.48));
     }
 
     public static double avgRatingByUser_high(double x){
-        //TODO
-        return 0;
+        return exp(makeInputToExp(x, 2.5, 0.48));
     }
 
     //Average rating to movie
 
     public static double avgRatingToMovie_low(double x){
-        //TODO
-        return 0;
+        return exp(makeInputToExp(x, 0, 0.8493));
     }
 
     public static double avgRatingToMovie_medium(double x){
-        //TODO
-        return 0;
+        return exp(makeInputToExp(x, 2.5, 0.48));
     }
 
     public static double avgRatingToMovie_high(double x){
-        //TODO
-        return 0;
+        return exp(makeInputToExp(x, 5, 0.8493));
     }
 
 }
