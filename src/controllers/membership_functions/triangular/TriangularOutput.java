@@ -63,5 +63,43 @@ public class TriangularOutput {
     }
 
     //5 output membership functions
+    public static double acceptanceRate5_veryLow(double x){
+        if(x < 0 || x >= 1.25)
+            return 0;
+        else
+            return (1.25-x)/(1.25);
+    }
 
+    public static double acceptanceRate5_low(double x){
+        if(x <= 0 || x >= 2.5)
+            return 0;
+        else if(x >= 0 && x <= 1.25)
+            return (x)/(1.25);
+        else
+            return (2.5-x)/(1.25);
+    }
+
+    public static double acceptanceRate5_medium(double x){
+        if(x <= 1.25 || x >= 3.75)
+            return 0;
+        else if(x >= 1.25 && x <= 2.5)
+            return (x -1.25)/(1.5);
+        else
+            return (3.75-x)/(1.25);
+    }
+
+    public static double acceptanceRate5_high(double x){
+        if(x <= 2.5 || x >= 5)
+            return 0;
+        else if(x >= 2.5 && x <= 3.75)
+            return (x -2.5)/(1.25);
+        else
+            return (5-x)/(1.25);
+    }
+    public static double acceptanceRate5_veryhigh(double x){
+        if(x <= 3.75 || x >= 5)
+            return 0;
+        else
+            return (x-3.75)/(1.25);
+    }
 }
