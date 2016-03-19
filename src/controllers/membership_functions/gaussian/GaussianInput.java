@@ -33,5 +33,4 @@ public class GaussianInput {
 
     public static double avgRatingToMovie_high(double x){return exp(makeInputToExp(x, 5, 0.8493));
     }
-
 }

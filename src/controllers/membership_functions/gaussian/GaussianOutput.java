@@ -50,5 +50,5 @@ public class GaussianOutput {
 
     public static double acceptanceRate5_veryHigh(double x){return exp(makeInputToExp(x, 5 , 0.42));
     }
-
+    
 }
