@@ -6,5 +6,13 @@ package controllers.distance_metrics;
 public class Euclidean {
 
     //TODO:public static double dissimilarityBetweenUser(ArrayList<>users)
+    public static double dissimilarityBetweenUsers(String userId){
+
+        return 0;
+    }
+
+    public static double dissmilarityBetweenMovies(){
+        return 0;
+    }
 
 }
