@@ -5,6 +5,40 @@ package models;
  */
 public class Movie {
 
-    //TODO: Implement Movie class just like User
+    public int movieID;
+    public String title;
+    public String genre;
 
+    public Movie(int movieID, String title, String genre) {
+        this.movieID = movieID;
+        this.title = title;
+        this.genre = genre;
+    }
+
+    public Movie() {
+    }
+
+    public int getMovieID() {
+        return movieID;
+    }
+
+    public void setMovieID(int movieID) {
+        this.movieID = movieID;
+    }
+
+    public String getTitle() {
+        return title;
+    }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getGenre() {
+        return genre;
+    }
+
+    public void setGenre(String genre) {
+        this.genre = genre;
+    }
 }
