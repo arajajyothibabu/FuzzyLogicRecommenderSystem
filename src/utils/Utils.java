@@ -24,4 +24,8 @@ public class Utils {
         return new Rating(rating.getInt(1), rating.getInt(2), rating.getInt(3), rating.getString(4));
     }
 
+    public static double square(double x){
+        return x * x;
+    }
+
 }
