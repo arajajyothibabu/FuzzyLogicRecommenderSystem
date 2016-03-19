@@ -37,7 +37,7 @@ public class TrapezoidalInput {
         else if(x >= 4 && x <= 5)
             return 1;
         else
-            return (5 - x) / (0);
+            return (5 - x) / 0;
     }
 
     //Average rating to movie
@@ -57,7 +57,7 @@ public class TrapezoidalInput {
         if(x < 0 || x >= 4)
             return 0;
         else if(x >= 0 && x <= 2)
-            return (x - 0) / (2);
+            return (x - 0) / 2;
         else if(x >= 2 && x <= 3)
             return 1;
         else
@@ -72,7 +72,7 @@ public class TrapezoidalInput {
         else if(x >= 4 && x <= 5)
             return 1;
         else
-            return (5 - x) / (0);
+            return (5 - x) / 0;
     }
 
 }

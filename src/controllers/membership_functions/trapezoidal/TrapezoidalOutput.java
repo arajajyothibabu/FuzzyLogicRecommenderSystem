@@ -36,7 +36,7 @@ public class TrapezoidalOutput {
         else if (x >= 4 && x <= 5)
             return 1;
         else
-            return (5 - x) / (0);
+            return (5 - x) / 0;
     }
         //4 output membership functions
 
@@ -81,7 +81,7 @@ public class TrapezoidalOutput {
         else if(x >= 4.5 && x <= 5)
             return 1;
         else
-            return (5 - x) / (0);
+            return (5 - x) / 0;
     }
 
     // 5 output membership function
@@ -138,6 +138,6 @@ public class TrapezoidalOutput {
         else if(x >= 4.4 && x <= 5)
             return 1;
         else
-            return (5 - x) / (0);
+            return (5 - x) / 0;
     }
 }
