@@ -28,6 +28,7 @@ public class TrapezoidalInput {
         else
             return (4-x)/(4-3);
     }
+
     public static double avgRatingByUser_high(double x){
         if(x < 3 || x >= 5)
             return 0;

@@ -96,6 +96,7 @@ public class TriangularOutput {
         else
             return (5-x)/(1.25);
     }
+
     public static double acceptanceRate5_veryhigh(double x){
         if(x <= 3.75 || x >= 5)
             return 0;

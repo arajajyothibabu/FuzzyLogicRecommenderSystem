@@ -129,7 +129,8 @@ public class TrapezoidalOutput {
         else
             return (4.4-x)/(4.4-4.05);
     }
-    public static double acceptanceRate5_veryhigh(double x){
+
+    public static double acceptanceRate5_veryHigh(double x){
         if(x < 4.05 || x >= 5)
             return 0;
         else if(x >= 4.05 && x <= 4.4)

@@ -5,7 +5,6 @@ package models;
  */
 public class Rating {
 
-    //TODO: implement just like User class
     public int userId;
     public int movieId;
     public int rating;
