@@ -3,6 +3,7 @@ package utils;
 /**
  * Created by Araja Jyothi Babu on 13-Mar-16.
  */
+import models.Movie;
 import models.Rating;
 import models.User;
 
@@ -38,10 +39,13 @@ public class DB {
         return commitStatement.execute("COMMIT");
     }
 
-    public static ResultSet getMovies() throws Exception {
+    public static ArrayList<Movie> getMovies() throws Exception {
         connection = openConnection();
         Statement statement = connection.createStatement();
-        ResultSet movieList = statement.executeQuery("SELECT * FROM movies");
+        ResultSet moviesFromDB = statement.executeQuery("SELECT * FROM movies");
+        ArrayList<Movie> movieList = new ArrayList<>();
+        while(moviesFromDB.next())
+            movieList.add(Utils.makeMovie(moviesFromDB));
         return movieList;
     }
 
@@ -73,6 +77,15 @@ public class DB {
         while(ratingsFromDB.next())
             ratingList.add(Utils.makeRating(ratingsFromDB));
         return ratingList;
+    }
+
+    public static Rating ratingOfUserToMovie(int userId, int movieId) throws Exception {
+        connection = openConnection();
+        Statement statement = connection.createStatement();
+        ResultSet ratingOfUserFromDB = statement.executeQuery("SELECT * FROM ratings where movieId ='" + movieId + "' and userId ='" + userId + "'");
+        if(ratingOfUserFromDB.next())
+            return Utils.makeRating(ratingOfUserFromDB);
+        return Utils.makeRating(); //not found rating
     }
 
 }
