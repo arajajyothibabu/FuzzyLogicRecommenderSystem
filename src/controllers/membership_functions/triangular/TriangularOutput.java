@@ -62,6 +62,6 @@ public class TriangularOutput {
             return (x - 3.5)/1.5;
     }
 
-    //TODO: 5 output membership functions
-    //here
+    //5 output membership functions
+
 }
