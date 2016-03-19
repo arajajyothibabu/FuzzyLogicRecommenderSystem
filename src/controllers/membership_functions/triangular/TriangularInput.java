@@ -27,7 +27,7 @@ public class TriangularInput {
         if(x < 2.5 || x > 5)
             return 0;
         else
-            return (x - 2.5)/2.5;
+            return (x - 2.5) / 2.5;
     }
 
     //Average rating to movie
