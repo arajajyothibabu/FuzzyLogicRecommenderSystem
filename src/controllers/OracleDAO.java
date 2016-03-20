@@ -64,7 +64,7 @@ public class OracleDAO {
         return Utils.makeRating(); //not found rating
     }
 
-    public static ArrayList<Rating> ratingsOfUser(int userId) throws Exception {
+    public static ArrayList<Rating> getRatingsOfUser(int userId) throws Exception {
         Connection connection = DB.openConnection();
         Statement statement = connection.createStatement();
         ResultSet ratingsOfUserFromDB = statement.executeQuery("SELECT * FROM ratings where userId ='" + userId + "'");
