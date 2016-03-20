@@ -12,9 +12,9 @@ public class Movie {
 
     public int movieID;
     public String title;
-    public String genre;
+    public ArrayList<Integer> genre; //int indexes to genreList in Genres
 
-    public Movie(int movieID, String title, String genre) {
+    public Movie(int movieID, String title, ArrayList<Integer> genre) {
         this.movieID = movieID;
         this.title = title;
         this.genre = genre;
@@ -39,11 +39,11 @@ public class Movie {
         this.title = title;
     }
 
-    public String getGenre() {
+    public ArrayList<Integer> getGenre() {
         return genre;
     }
 
-    public void setGenre(String genre) {
+    public void setGenre(ArrayList<Integer> genre) {
         this.genre = genre;
     }
 }
