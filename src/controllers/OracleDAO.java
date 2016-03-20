@@ -20,9 +20,17 @@ public class OracleDAO {
         Statement statement = connection.createStatement();
         ResultSet moviesFromDB = statement.executeQuery("SELECT * FROM movies");
         ArrayList<Movie> movieList = new ArrayList<Movie>();
-        while(moviesFromDB.next())
-            movieList.add(Utils.makeMovie(moviesFromDB));
+        while(moviesFromDB.next()) {
+            movieList.add(Utils.makeMovie(moviesFromDB, getGenres(moviesFromDB.getInt(3))));
+        }
         return movieList;
+    }
+
+    public static ResultSet getGenres(int movieId) throws Exception {
+        Connection connection = DB.openConnection();
+        Statement statement = connection.createStatement();
+        ResultSet genresFromDB = statement.executeQuery("SELECT * FROM genres where MovieId ='" + movieId + "'");
+        return genresFromDB;
     }
 
     public static ArrayList<User> getUsers(String userId) throws Exception {

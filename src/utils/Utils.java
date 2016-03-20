@@ -17,8 +17,8 @@ public class Utils {
         return new User(user.getInt(1), user.getString(2).charAt(0), user.getInt(3), user.getString(4), user.getInt(5));
     }
 
-    public static Movie makeMovie(ResultSet movie) throws Exception {
-        return new Movie(movie.getInt(1), movie.getString(2), movie.getString(3));
+    public static Movie makeMovie(ResultSet movie, ResultSet genres) throws Exception {
+        return new Movie(movie.getInt(1), movie.getString(2), makeGenereList(genres));
     }
 
     public static Rating makeRating(ResultSet rating) throws Exception {

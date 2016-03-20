@@ -12,13 +12,11 @@ public class Movie {
 
     public int movieID;
     public String title;
-    public int genreId; //int indexes to genreList in Genres
     public ArrayList<Integer> genres;
 
-    public Movie(int movieID, String title, int genreId, ArrayList<Integer> genres) {
+    public Movie(int movieID, String title, ArrayList<Integer> genres) {
         this.movieID = movieID;
         this.title = title;
-        this.genreId = genreId;
         this.genres = genres;
     }
 
@@ -49,11 +47,6 @@ public class Movie {
         this.genres = genres;
     }
 
-    public int getGenreId() {
-        return genreId;
-    }
+    //NOTE: Genres list is obtained by genreId stored in DB which is Primary key of Genres table
 
-    public void setGenreId(int genreId) {
-        this.genreId = genreId;
-    }
 }
