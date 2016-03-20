@@ -47,13 +47,3 @@ public class Movie {
         this.genre = genre;
     }
 }
-
-class Genres{
-
-    public static ArrayList<String> getGenreList() {
-        List<String> array = Arrays.asList("Action", "Adventre", "Animation", "Biography", "Comedy", "Crime", "Documentry", "Drama", "Family", "Fantasy", "History", "Horror", "Music", "Mystery", "Romance", "Sci-Fi", "Sport", "Thriller", "War", "Western");
-        ArrayList<String> genreList = new ArrayList<String>(array);
-        return genreList;
-    }
-
-}

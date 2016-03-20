@@ -3,6 +3,7 @@ package utils;
 import models.*;
 
 import java.sql.ResultSet;
+import java.util.ArrayList;
 
 /**
  * Created by Araja Jyothi Babu on 13-Mar-16.
@@ -26,6 +27,17 @@ public class Utils {
 
     public static Rating makeRating() throws Exception { //for null rating objects in DB
         return new Rating(0, 0, 0, "");
+    }
+
+    public static ArrayList<Integer> makeGenereList(ResultSet genreList) throws Exception {
+        int genreLength = 19;
+        ArrayList<Integer> preparedGenreList = new ArrayList<Integer>();
+        for(int i = 1; i <= genreLength; i++)
+            preparedGenreList.add(0); //initialised to 0
+        if(genreList.next())
+        for(int i = 1; i <= genreLength; i++)
+            preparedGenreList.add(i-1, genreList.getInt(i)); //updating values if present
+        return preparedGenreList;
     }
 
     public static double square(double x){

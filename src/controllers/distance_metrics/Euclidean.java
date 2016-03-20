@@ -24,7 +24,7 @@ public class Euclidean {
         return Math.sqrt(sumOfSquares);
     }
 
-    public static double dissmilarityBetweenMovies(){
+    public static double dissmilarityBetweenMovies(Movie movie1, Movie movie2){
         return 0;
     }
 
