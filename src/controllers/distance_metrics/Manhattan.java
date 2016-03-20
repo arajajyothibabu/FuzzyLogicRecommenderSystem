@@ -2,8 +2,6 @@ package controllers.distance_metrics;
 
 import controllers.OracleDAO;
 import models.*;
-import utils.DB;
-import utils.Utils;
 
 import java.util.ArrayList;
 
@@ -20,11 +18,18 @@ public class Manhattan {
             ratingDifference = OracleDAO.ratingOfUserToMovie(userU.userId, movie.movieID).rating - OracleDAO.ratingOfUserToMovie(userV.userId, movie.movieID).rating;
             sumOfDifferences += Math.abs(ratingDifference);
         }
-        return Math.sqrt(sumOfDifferences);
+        return sumOfDifferences;
     }
 
-    public static double dissmilarityBetweenMovies(){
-        return 0;
+    public static double dissimilarityBetweenMovies(Movie movie1, Movie movie2) throws Exception {
+        ArrayList<String> genreList = Genre.getGenreList();
+        double sumOfDifferences = 0;
+        double genreDifference = 0;
+        for(int i = 0; i < genreList.size(); i++){
+            genreDifference = movie1.genres.get(i) - movie2.genres.get(i);
+            sumOfDifferences += genreDifference;
+        }
+        return sumOfDifferences;
     }
 
 }
