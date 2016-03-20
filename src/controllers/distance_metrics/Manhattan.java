@@ -15,7 +15,7 @@ public class Manhattan {
         double sumOfDifferences = 0;
         double ratingDifference = 0;
         for(Movie movie : movieList){
-            ratingDifference = OracleDAO.ratingOfUserToMovie(userU.userId, movie.movieID).rating - OracleDAO.ratingOfUserToMovie(userV.userId, movie.movieID).rating;
+            ratingDifference = OracleDAO.ratingOfUserToMovie(userU.userId, movie.movieId).rating - OracleDAO.ratingOfUserToMovie(userV.userId, movie.movieId).rating;
             sumOfDifferences += Math.abs(ratingDifference);
         }
         return sumOfDifferences;
