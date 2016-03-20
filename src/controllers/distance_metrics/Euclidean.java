@@ -11,7 +11,6 @@ import java.util.ArrayList;
  */
 public class Euclidean {
 
-    //TODO:public static double dissimilarityBetweenUser(ArrayList<>users)
     //FIXME: userId ot userObject need to fix later
     public static double dissimilarityBetweenUsers(User userU, User userV) throws Exception{
         ArrayList<Movie> movieList = DB.getMovies();
