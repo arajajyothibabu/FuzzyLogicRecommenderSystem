@@ -10,12 +10,12 @@ import java.util.List;
  */
 public class Movie {
 
-    public int movieID;
+    public int movieId;
     public String title;
     public ArrayList<Integer> genres;
 
-    public Movie(int movieID, String title, ArrayList<Integer> genres) {
-        this.movieID = movieID;
+    public Movie(int movieId, String title, ArrayList<Integer> genres) {
+        this.movieId = movieId;
         this.title = title;
         this.genres = genres;
     }
@@ -23,12 +23,12 @@ public class Movie {
     public Movie() {
     }
 
-    public int getMovieID() {
-        return movieID;
+    public int getMovieId() {
+        return movieId;
     }
 
-    public void setMovieID(int movieID) {
-        this.movieID = movieID;
+    public void setMovieId(int movieId) {
+        this.movieId = movieId;
     }
 
     public String getTitle() {
