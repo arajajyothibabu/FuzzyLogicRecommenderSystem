@@ -12,12 +12,14 @@ public class Movie {
 
     public int movieID;
     public String title;
-    public ArrayList<Integer> genre; //int indexes to genreList in Genres
+    public int genreId; //int indexes to genreList in Genres
+    public ArrayList<Integer> genres;
 
-    public Movie(int movieID, String title, ArrayList<Integer> genre) {
+    public Movie(int movieID, String title, int genreId, ArrayList<Integer> genres) {
         this.movieID = movieID;
         this.title = title;
-        this.genre = genre;
+        this.genreId = genreId;
+        this.genres = genres;
     }
 
     public Movie() {
@@ -39,11 +41,19 @@ public class Movie {
         this.title = title;
     }
 
-    public ArrayList<Integer> getGenre() {
-        return genre;
+    public ArrayList<Integer> getGenres() {
+        return genres;
     }
 
-    public void setGenre(ArrayList<Integer> genre) {
-        this.genre = genre;
+    public void setGenres(ArrayList<Integer> genres) {
+        this.genres = genres;
+    }
+
+    public int getGenreId() {
+        return genreId;
+    }
+
+    public void setGenreId(int genreId) {
+        this.genreId = genreId;
     }
 }
