@@ -1,5 +1,6 @@
 package controllers.distance_metrics;
 
+import controllers.OracleDAO;
 import models.*;
 import utils.DB;
 import utils.Utils;
@@ -13,11 +14,11 @@ public class Euclidean {
 
     //FIXME: userId ot userObject need to fix later
     public static double dissimilarityBetweenUsers(User userU, User userV) throws Exception{
-        ArrayList<Movie> movieList = DB.getMovies();
+        ArrayList<Movie> movieList = OracleDAO.getMovies();
         double sumOfSquares = 0;
         double ratingDifference = 0;
         for(Movie movie : movieList){
-            ratingDifference = DB.ratingOfUserToMovie(userU.userId, movie.movieID).rating - DB.ratingOfUserToMovie(userV.userId, movie.movieID).rating;
+            ratingDifference = OracleDAO.ratingOfUserToMovie(userU.userId, movie.movieID).rating - OracleDAO.ratingOfUserToMovie(userV.userId, movie.movieID).rating;
             sumOfSquares += Utils.square(ratingDifference);
         }
         return Math.sqrt(sumOfSquares);
