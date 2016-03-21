@@ -58,10 +58,10 @@ public class OracleDAO {
         return genresFromDB;
     }
 
-    public static ArrayList<User> getUsers(String userId) throws Exception {
+    public static ArrayList<User> getUsers(User user) throws Exception {
         Connection connection = DB.openConnection();
         Statement statement = connection.createStatement();
-        ResultSet usersFromDB = statement.executeQuery("SELECT * FROM users where UserId != '" + userId + "'");
+        ResultSet usersFromDB = statement.executeQuery("SELECT * FROM users where UserId != '" + user.userId + "'");
         DB.closeConnection();
         ArrayList<User> userList = new ArrayList<User>();
         while(usersFromDB.next())
