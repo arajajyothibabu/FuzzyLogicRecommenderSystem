@@ -1,15 +1,16 @@
 <%@ page import ="java.sql.*" %>
 <%@ page import="controllers.*" %>
+<%@ page import="utils.DB" %>
 <%
-    String userid = request.getParameter("uname");    
-    String pwd = request.getParameter("pass");
+    String username = request.getParameter("user");
+    String password = request.getParameter("pass");
     try{
-        Connection con = DoConnection.getConnection();
+        Connection con = DB.openConnection();
         Statement st = con.createStatement();
         ResultSet rs;
-        rs = st.executeQuery("select * from members where uname='" + userid + "' and pass='" + pwd + "'");
+        rs = st.executeQuery("select * from authusers where user='" + username + "' and pass='" + password + "'");
         if (rs.next()) {
-            session.setAttribute("userid", userid);
+            session.setAttribute("user", username);
             response.sendRedirect("success.jsp");
         } else {
             response.sendRedirect("index.jsp");

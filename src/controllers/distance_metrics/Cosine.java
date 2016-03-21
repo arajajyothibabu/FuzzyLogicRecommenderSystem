@@ -1,8 +1,41 @@
 package controllers.distance_metrics;
 
+import controllers.OracleDAO;
+import models.Genre;
+import models.Movie;
+import models.User;
+import utils.Utils;
+
+import java.util.ArrayList;
+
 /**
  * Created by Araja Jyothi Babu on 16-Mar-16.
  */
 public class Cosine {
-    //TODO:
+
+    public static double dissimilarityBetweenUsers(User userU, User userV) throws Exception{
+        ArrayList<Movie> movieList = OracleDAO.getMovies();
+        double dotProduct = 0, ratingOfUserU = 0, ratingOfUserV = 0, ratingOfUserUMagnitude = 0, ratingOfUserVMagnitude = 0;
+        for(Movie movie : movieList){
+            ratingOfUserU = OracleDAO.ratingOfUserToMovie(userU.userId, movie.movieId).rating;
+            ratingOfUserV = OracleDAO.ratingOfUserToMovie(userV.userId, movie.movieId).rating;
+            dotProduct += ratingOfUserU * ratingOfUserV;
+            ratingOfUserUMagnitude += Utils.square(ratingOfUserU);
+            ratingOfUserVMagnitude += Utils.square(ratingOfUserV);
+        }
+        double cosineSimilary = dotProduct / (ratingOfUserUMagnitude * ratingOfUserVMagnitude);
+        return cosineSimilary;
+    }
+
+    public static double dissimilarityBetweenMovies(Movie movie1, Movie movie2) throws Exception {
+        ArrayList<String> genreList = Genre.getGenreList();
+        double sumOfDifferences = 0;
+        double genreDifference = 0;
+        for(int i = 0; i < genreList.size(); i++){
+            genreDifference = movie1.genres.get(i) - movie2.genres.get(i);
+            sumOfDifferences += genreDifference;
+        }
+        return sumOfDifferences;
+    }
+
 }

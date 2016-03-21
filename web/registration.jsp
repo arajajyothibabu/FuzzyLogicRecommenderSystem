@@ -1,17 +1,16 @@
 <%@ page import ="java.sql.*" %>
 <%@ page import="controllers.*" %>
+<%@ page import="utils.DB" %>
 <%
-    String user = request.getParameter("uname");    
-    String pwd = request.getParameter("pass");
+    String username = request.getParameter("user");
+    String password = request.getParameter("pass");
     try{
-        Connection con = DoConnection.getConnection();
+        Connection con = DB.openConnection();
         Statement st = con.createStatement();
-        //ResultSet rs;
-        int i = st.executeUpdate("insert into members(uname, pass) values ('" + user + "','" + pwd + "')");
-        if (i > 0) {
-            session.setAttribute("userid", user);
+        int query = st.executeUpdate("insert into authusers values ('" + username + "','" + password + "')");
+        if (query > 0) {
+            session.setAttribute("user", username);
             response.sendRedirect("success.jsp");
-            // out.print("Registration Successfull!"+"<a href='index.jsp'>Go to Login</a>");
         } else {
             response.sendRedirect("index.jsp");
         }
