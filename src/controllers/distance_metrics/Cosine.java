@@ -23,19 +23,33 @@ public class Cosine {
             ratingOfUserUMagnitude += Utils.square(ratingOfUserU);
             ratingOfUserVMagnitude += Utils.square(ratingOfUserV);
         }
-        double cosineSimilary = dotProduct / (ratingOfUserUMagnitude * ratingOfUserVMagnitude);
-        return cosineSimilary;
+        double cosineSimilary = 0;
+        try{
+            cosineSimilary = dotProduct / (Math.sqrt(ratingOfUserUMagnitude) * Math.sqrt(ratingOfUserVMagnitude));
+            return cosineSimilary;
+        }catch (Exception e){
+            return 0;
+        }
     }
 
     public static double dissimilarityBetweenMovies(Movie movie1, Movie movie2) throws Exception {
         ArrayList<String> genreList = Genre.getGenreList();
-        double sumOfDifferences = 0;
-        double genreDifference = 0;
+        double dotProduct = 0, genreMovie1Magnitude = 0, genreMovie2Magnitude = 0;
+        int genreOfMovie1 = 0, genreOfMovie2 = 0;
         for(int i = 0; i < genreList.size(); i++){
-            genreDifference = movie1.genres.get(i) - movie2.genres.get(i);
-            sumOfDifferences += genreDifference;
+            genreOfMovie1 = movie1.genres.get(i);
+            genreOfMovie2 = movie2.genres.get(i);
+            dotProduct += genreOfMovie1 * genreOfMovie2;
+            genreMovie1Magnitude += Utils.square(genreOfMovie1);
+            genreMovie2Magnitude += Utils.square(genreOfMovie2);
         }
-        return sumOfDifferences;
+        double cosineSimilary = 0;
+        try{
+            cosineSimilary = dotProduct / (Math.sqrt(genreMovie1Magnitude) * Math.sqrt(genreMovie2Magnitude));
+            return cosineSimilary;
+        }catch (Exception e){
+            return 0;
+        }
     }
 
 }
