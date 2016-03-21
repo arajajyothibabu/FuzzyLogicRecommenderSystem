@@ -35,33 +35,28 @@
             </ul>
             <!-- Right Nav Section -->
             <ul class="right">
-                <li class="active"><a href="home.html">Home</a></li>
-                <li class=""><a href="signup.html">Register</a></li>
-                <li class=""><a href="login.html">Search</a>
-                    <!--<ul class="dropdown">
-                        <li><a href="#">First link in dropdown</a></li>
-                        <li class="active"><a href="#">Active link in dropdown</a></li>
-                    </ul>-->
-                </li>
-                <li class=""><a href="about.html">About</a></li>
-                <li>
-                    <a href="#" data-dropdown="signin">Subscribe</a>
-                </li>
+                <li class="active"><a href="index.html">Home</a></li>
+                <li class=""><a href="options.jsp">Algorithms</a></li>
+                <% if(session.getAttribute("user") == null) {%>
+                    <li><a href="#" data-dropdown="signin">Login</a></li>
+                    <div id="signin" class="f-dropdown small content" data-dropdown-content>
+                        <!-- signin form here -->
+                        <form action="login.jsp" method="post" >
+                            <div class="row" style="border-radius:5px;">
+                                <div class="large-12 columns">
+                                    <input type="number" placeholder="Valid Email" required />
+                                    <input type="password" placeholder="P@$$w0rd" required />
+                                    <button type="submit" class="success button">Login</button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                <% }else {%>
+                <li>session.getAttribute("user")</li>
+                <% } %>
             </ul>
         </section>
     </nav>
-    <div id="signin" class="f-dropdown small content" data-dropdown-content>
-        <!-- signin form here -->
-        <form action="#" method="post" >
-            <div class="row" style="border-radius:5px; background-color:aqua;">
-                <div class="large-12 columns">
-                    <label>Email Address
-                        <input type="text" placeholder="valid email" />
-                    </label>
-                </div>
-            </div>
-        </form>
-    </div>
 </div>
 <div class="row fullWidth">
     <div class="large-12 columns">
@@ -72,7 +67,4 @@
                     <section class="top-bar-section"></section>
                 </nav>
             </div>
-        </div>
-        <div class="row">
-
         </div>
