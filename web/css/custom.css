@@ -1,4 +1,25 @@
-.fi{
-    font-size: 1.3em;
+#header{
+	background-color:#9999CC;
+	}
+.fullWidth {
+   width: 100%;
+   margin-left: auto;
+   margin-right: auto;
+   max-width: initial;
 }
-.pull
+.small {
+    background-color:aqua;
+    color:aqua;
+    border-radius:5px;
+}
+#formelement {
+    padding:5px;
+}
+.jb {
+     border-radius:10px;
+}
+placeholder {
+    color:#000000;
+    text-decoration-color:#000000;
+    background-color:#fff;
+}
