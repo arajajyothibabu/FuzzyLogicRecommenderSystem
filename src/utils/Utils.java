@@ -37,6 +37,10 @@ public class Utils {
         return new Rating(0, 0, 0, "");
     }
 
+    public static SimilarUser makeSimilarUser(ResultSet similarUser) throws Exception {
+        return new SimilarUser(similarUser.getInt(1), similarUser.getInt(2), similarUser.getInt(3), similarUser.getInt(4));
+    }
+
     public static ArrayList<Integer> makeGenereList(ResultSet genreList) throws Exception {
         int genreLength = 19;
         ArrayList<Integer> preparedGenreList = new ArrayList<Integer>();
