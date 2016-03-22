@@ -32,16 +32,13 @@ public class PearsonCoefficient {
     }
 
     public static double dissimilarityBetweenUsers(User userU, User userV) throws Exception{
-        ArrayList<Movie> movieList = OracleDAO.getMovies();
+        ArrayList<UserSimilarity> similarityList = OracleDAO.getSimilarity(userU, userV);
         double numeratorSum = 0, denominatorUserUSum = 0, denominatorUserVSum = 0, userUDifference = 0, userVDifference = 0;
         double averageRatingOfUserU = averageRatingOfUser(userU);
         double averageRatingOfUserV = averageRatingOfUser(userV);
-        int ratingOfUserUForSingleMovie = 0, ratingOfUserVForSingleMovie = 0;
-        for(Movie movie : movieList){
-            ratingOfUserUForSingleMovie = OracleDAO.ratingOfUserToMovie(userU.userId, movie.movieId).rating;
-            ratingOfUserVForSingleMovie = OracleDAO.ratingOfUserToMovie(userV.userId, movie.movieId).rating;
-            userUDifference = ratingOfUserUForSingleMovie - averageRatingOfUserU;
-            userVDifference = ratingOfUserVForSingleMovie - averageRatingOfUserV;
+        for(UserSimilarity us : similarityList){
+            userUDifference = us.ratingU - averageRatingOfUserU;
+            userVDifference = us.ratingV - averageRatingOfUserV;
             numeratorSum += userUDifference * userVDifference;
             denominatorUserUSum += Utils.square(userUDifference);
             denominatorUserVSum += Utils.square(userVDifference);
