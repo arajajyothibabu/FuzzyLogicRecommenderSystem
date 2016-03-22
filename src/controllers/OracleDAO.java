@@ -3,6 +3,7 @@ package controllers;
 import models.Movie;
 import models.Rating;
 import models.User;
+import models.UserSimilarity;
 import utils.*;
 
 import java.sql.Connection;
@@ -38,10 +39,34 @@ public class OracleDAO {
         return false;
     }
 
+    public static ArrayList<UserSimilarity> getSimilarity(User userU, User userV) throws Exception {
+        Connection connection = DB.openConnection();
+        Statement statement = connection.createStatement();
+        ResultSet similarUsersFromDB = statement.executeQuery("SELECT a.movieid, b.userid, a.rating, b.rating FROM ratings a, ratings b where a.userid = '" + userU.userId + "' and a.movieid = b.movieid and b.userid != '" + userV.userId + "'");
+        DB.closeConnection();
+        ArrayList<UserSimilarity> movieList = new ArrayList<UserSimilarity>();
+        while(similarUsersFromDB.next()) {
+            movieList.add(Utils.makeSimilarUser(similarUsersFromDB));
+        }
+        return movieList;
+    }
+
     public static ArrayList<Movie> getMovies() throws Exception {
         Connection connection = DB.openConnection();
         Statement statement = connection.createStatement();
         ResultSet moviesFromDB = statement.executeQuery("SELECT * FROM movies");
+        DB.closeConnection();
+        ArrayList<Movie> movieList = new ArrayList<Movie>();
+        while(moviesFromDB.next()) {
+            movieList.add(Utils.makeMovie(moviesFromDB, getGenres(moviesFromDB.getInt(3))));
+        }
+        return movieList;
+    }
+
+    public static ArrayList<Movie> getMovies(Movie movie) throws Exception {
+        Connection connection = DB.openConnection();
+        Statement statement = connection.createStatement();
+        ResultSet moviesFromDB = statement.executeQuery("SELECT * FROM movies where movieid != '" + movie.movieId + "'");
         DB.closeConnection();
         ArrayList<Movie> movieList = new ArrayList<Movie>();
         while(moviesFromDB.next()) {
