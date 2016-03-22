@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -37,8 +36,8 @@ public class Utils {
         return new Rating(0, 0, 0, "");
     }
 
-    public static SimilarUser makeSimilarUser(ResultSet similarUser) throws Exception {
-        return new SimilarUser(similarUser.getInt(1), similarUser.getInt(2), similarUser.getInt(3), similarUser.getInt(4));
+    public static UserSimilarity makeSimilarUser(ResultSet similarUser) throws Exception {
+        return new UserSimilarity(similarUser.getInt(1), similarUser.getInt(2), similarUser.getInt(3), similarUser.getInt(4));
     }
 
     public static ArrayList<Integer> makeGenereList(ResultSet genreList) throws Exception {
