@@ -2,6 +2,7 @@ package controllers.distance_metrics;
 
 import controllers.OracleDAO;
 import models.*;
+import utils.Utils;
 
 import java.util.ArrayList;
 
@@ -11,11 +12,11 @@ import java.util.ArrayList;
 public class Manhattan {
 
     public static double dissimilarityBetweenUsers(User userU, User userV) throws Exception{
-        ArrayList<Movie> movieList = OracleDAO.getMovies();
+        ArrayList<UserSimilarity> similarityList = OracleDAO.getSimilarity(userU, userV);
         double sumOfDifferences = 0;
         double ratingDifference = 0;
-        for(Movie movie : movieList){
-            ratingDifference = OracleDAO.ratingOfUserToMovie(userU.userId, movie.movieId).rating - OracleDAO.ratingOfUserToMovie(userV.userId, movie.movieId).rating;
+        for(UserSimilarity us : similarityList){
+            ratingDifference = us.ratingU - us.ratingV;
             sumOfDifferences += Math.abs(ratingDifference);
         }
         return sumOfDifferences;

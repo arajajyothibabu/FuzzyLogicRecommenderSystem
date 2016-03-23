@@ -6,7 +6,6 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.LinkedList;
@@ -25,8 +24,8 @@ public class Utils {
         return new User(user.getInt(1), user.getString(2).charAt(0), user.getInt(3), user.getString(4), user.getInt(5));
     }
 
-    public static Movie makeMovie(ResultSet movie, ResultSet genres) throws Exception {
-        return new Movie(movie.getInt(1), movie.getString(2), makeGenereList(genres));
+    public static Movie makeMovie(ResultSet movie) throws Exception {
+        return new Movie(movie.getInt(1), movie.getString(2), (int [])movie.getArray(3).getArray());
     }
 
     public static Rating makeRating(ResultSet rating) throws Exception {
@@ -37,15 +36,8 @@ public class Utils {
         return new Rating(0, 0, 0, "");
     }
 
-    public static ArrayList<Integer> makeGenereList(ResultSet genreList) throws Exception {
-        int genreLength = 19;
-        ArrayList<Integer> preparedGenreList = new ArrayList<Integer>();
-        for(int i = 1; i <= genreLength; i++)
-            preparedGenreList.add(0); //initialised to 0
-        if(genreList.next())
-        for(int i = 1; i <= genreLength; i++)
-            preparedGenreList.add(i-1, genreList.getInt(i)); //updating values if present
-        return preparedGenreList;
+    public static UserSimilarity makeSimilarUser(ResultSet similarUser) throws Exception {
+        return new UserSimilarity(similarUser.getInt(1), similarUser.getInt(2), similarUser.getInt(3), similarUser.getInt(4));
     }
 
     public static double square(double x){

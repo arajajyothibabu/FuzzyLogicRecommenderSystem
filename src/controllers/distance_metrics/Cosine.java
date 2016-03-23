@@ -4,6 +4,7 @@ import controllers.OracleDAO;
 import models.Genre;
 import models.Movie;
 import models.User;
+import models.UserSimilarity;
 import utils.Utils;
 
 import java.util.ArrayList;
@@ -14,19 +15,17 @@ import java.util.ArrayList;
 public class Cosine {
 
     public static double dissimilarityBetweenUsers(User userU, User userV) throws Exception{
-        ArrayList<Movie> movieList = OracleDAO.getMovies();
-        double dotProduct = 0, ratingOfUserU = 0, ratingOfUserV = 0, ratingOfUserUMagnitude = 0, ratingOfUserVMagnitude = 0;
-        for(Movie movie : movieList){
-            ratingOfUserU = OracleDAO.ratingOfUserToMovie(userU.userId, movie.movieId).rating;
-            ratingOfUserV = OracleDAO.ratingOfUserToMovie(userV.userId, movie.movieId).rating;
-            dotProduct += ratingOfUserU * ratingOfUserV;
-            ratingOfUserUMagnitude += Utils.square(ratingOfUserU);
-            ratingOfUserVMagnitude += Utils.square(ratingOfUserV);
+        ArrayList<UserSimilarity> similarityList = OracleDAO.getSimilarity(userU, userV);
+        double dotProduct = 0, ratingOfUserUMagnitude = 0, ratingOfUserVMagnitude = 0;
+        for(UserSimilarity us : similarityList){
+            dotProduct += us.ratingU * us.ratingV;
+            ratingOfUserUMagnitude += Utils.square(us.ratingU);
+            ratingOfUserVMagnitude += Utils.square(us.ratingV);
         }
-        double cosineSimilary = 0;
+        double cosineSimilarity = 0;
         try{
-            cosineSimilary = dotProduct / (Math.sqrt(ratingOfUserUMagnitude) * Math.sqrt(ratingOfUserVMagnitude));
-            return cosineSimilary;
+            cosineSimilarity = dotProduct / (Math.sqrt(ratingOfUserUMagnitude) * Math.sqrt(ratingOfUserVMagnitude));
+            return cosineSimilarity;
         }catch (Exception e){
             return 0;
         }
