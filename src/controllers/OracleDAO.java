@@ -7,6 +7,7 @@ import models.UserSimilarity;
 import utils.*;
 
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import java.util.ArrayList;
@@ -27,16 +28,9 @@ public class OracleDAO {
     public static Boolean addMovie(Movie movie) throws Exception {
         Connection connection = DB.openConnection();
         Statement statement = connection.createStatement();
-        // FIXME: movie.genres are used here to update genre values
-        Statement genres = connection.prepareStatement("INSERT into users values('" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "', '" + 1 + "')");
-        ResultSet genreId = statement.executeQuery("SELECT MAX(genreid) from genres");
-        if(genreId.next()){
-            Boolean result = statement.execute("INSERT into movies values('" + movie.movieId + "', '" + movie.title + "', '" + genreId.getInt(1) + "'");
-            DB.closeConnection();
-            return result;
-        }
+        Boolean result = statement.execute("INSERT into movies values('" + movie.movieId + "', '" + movie.title + "', '" + movie.genres + "'");
         DB.closeConnection();
-        return false;
+        return result;
     }
 
     public static ArrayList<UserSimilarity> getSimilarity(User userU, User userV) throws Exception {
@@ -58,9 +52,21 @@ public class OracleDAO {
         DB.closeConnection();
         ArrayList<Movie> movieList = new ArrayList<Movie>();
         while(moviesFromDB.next()) {
-            movieList.add(Utils.makeMovie(moviesFromDB, getGenres(moviesFromDB.getInt(3))));
+            movieList.add(Utils.makeMovie(moviesFromDB));
         }
         return movieList;
+    }
+
+    public static int[] getGenres(int movieId) throws Exception {
+        Connection connection = DB.openConnection();
+        Statement statement = connection.createStatement();
+        ResultSet movieFromDB = statement.executeQuery("SELECT genres FROM movies where movieid = '" + movieId + "'");
+        DB.closeConnection();
+        if(movieFromDB.next()) {
+            return (int [])movieFromDB.getArray(3).getArray();
+        }
+        int[] emptyArray = new int[19];
+        return emptyArray;
     }
 
     public static ArrayList<Movie> getMovies(Movie movie) throws Exception {
@@ -70,17 +76,9 @@ public class OracleDAO {
         DB.closeConnection();
         ArrayList<Movie> movieList = new ArrayList<Movie>();
         while(moviesFromDB.next()) {
-            movieList.add(Utils.makeMovie(moviesFromDB, getGenres(moviesFromDB.getInt(3))));
+            movieList.add(Utils.makeMovie(moviesFromDB));
         }
         return movieList;
-    }
-
-    public static ResultSet getGenres(int movieId) throws Exception {
-        Connection connection = DB.openConnection();
-        Statement statement = connection.createStatement();
-        ResultSet genresFromDB = statement.executeQuery("SELECT * FROM genres where MovieId ='" + movieId + "'");
-        DB.closeConnection();
-        return genresFromDB;
     }
 
     public static ArrayList<User> getUsers(User user) throws Exception {

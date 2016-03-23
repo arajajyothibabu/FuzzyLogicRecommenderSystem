@@ -14,12 +14,14 @@
     <title>Movie Recommender System</title>
     <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" href="css/foundation.min.css" />
+    <link rel="stylesheet" href="css/star-rating.min.css" type="text/css">
     <link rel="stylesheet" href="css/custom.css" type="text/css">
     <script src="js/vendor/modernizr.js"></script>
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation/foundation.js"></script>
     <script src="js/foundation/foundation.orbit.js"></script>
     <script src="js/foundation/foundation.dropdown.js"></script>
+    <script src="js/star-rating.min.js"></script>
 </head>
 <body>
 <!-- Header -->

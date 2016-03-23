@@ -4,7 +4,6 @@ import controllers.OracleDAO;
 import utils.Utils;
 
 import java.util.ArrayList;
-import java.util.concurrent.ExecutionException;
 
 /**
  * Created by Araja Jyothi Babu on 22-Mar-16.
@@ -46,18 +45,18 @@ public class MovieRenderModel {
     }
 
     public void setGenres() throws Exception {
-        this.genres = getGenres(this.movieId);
+        this.genres = getGenres(movieId);
     }
 
     public static String getGenres(int movieId) throws Exception {
         ArrayList<String> genreList = Genre.getGenreList();
-        StringBuilder genres = new StringBuilder("");
-        ArrayList<Integer> genreIds = Utils.makeGenereList(OracleDAO.getGenres(movieId));
+        StringBuilder genresData = new StringBuilder("");
+        int[] genreIds = OracleDAO.getGenres(movieId);
         for(int i = 0; i < genreList.size(); i++){
-            if( genreIds.get(i) == 1)
-                genres.append(genreList.get(i) + ", ");
+            if( genreIds[i] == 1)
+                genresData.append(genreList.get(i) + ", ");
         }
-        return genres.toString();
+        return genresData.toString();
     }
 
 }

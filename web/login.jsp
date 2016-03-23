@@ -19,8 +19,9 @@
             }
             else{
                 //registartion if user doesn't exists
-                int query = st.executeUpdate("insert into authusers values ('" + username + "','" + password + "')");
-                if (query > 0) {
+                int authUserInsert = st.executeUpdate("insert into authusers values ('" + username + "','" + password + "')");
+                int userInsert = st.executeUpdate("insert into users values ('" + username + "','','','','')");
+                if (authUserInsert > 0 && userInsert > 0) {
                     session.setAttribute("user", username);
                     response.sendRedirect("index.jsp?login=2");
                 }
