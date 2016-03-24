@@ -36,8 +36,8 @@ public class Cosine {
         double dotProduct = 0, genreMovie1Magnitude = 0, genreMovie2Magnitude = 0;
         int genreOfMovie1 = 0, genreOfMovie2 = 0;
         for(int i = 0; i < genreList.size(); i++){
-            genreOfMovie1 = movie1.genres.get(i);
-            genreOfMovie2 = movie2.genres.get(i);
+            genreOfMovie1 = movie1.genres[i];
+            genreOfMovie2 = movie2.genres[i];
             dotProduct += genreOfMovie1 * genreOfMovie2;
             genreMovie1Magnitude += Utils.square(genreOfMovie1);
             genreMovie2Magnitude += Utils.square(genreOfMovie2);

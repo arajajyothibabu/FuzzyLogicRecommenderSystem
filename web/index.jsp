@@ -49,7 +49,9 @@
             <div class="large-9 columns" style="padding-left:50px; padding-right:50px; border-right:groove;">
                 <div class="row">
                     <div class="large-12 medium-12 columns">
+                        <%
 
+                        %>
                     </div>
                 </div>
             </div>

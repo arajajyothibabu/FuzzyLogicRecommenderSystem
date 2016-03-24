@@ -27,7 +27,7 @@ public class Manhattan {
         double sumOfDifferences = 0;
         double genreDifference = 0;
         for(int i = 0; i < genreList.size(); i++){
-            genreDifference = movie1.genres.get(i) - movie2.genres.get(i);
+            genreDifference = movie1.genres[i] - movie2.genres[i];
             sumOfDifferences += genreDifference;
         }
         return sumOfDifferences;

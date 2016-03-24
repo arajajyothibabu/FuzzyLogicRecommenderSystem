@@ -24,10 +24,10 @@ public class PearsonCoefficient {
 
     public static double averageGenreOfMovie(Movie movie) throws Exception {
         double totalGenre = 0;
-        ArrayList<Integer> genresOfMovie = Utils.makeGenereList(OracleDAO.getGenres(movie.movieId));
-        for(Integer genre : genresOfMovie)
-            totalGenre += genre.intValue();
-        double averageGenre = totalGenre / genresOfMovie.size();
+        int[] genresOfMovie = OracleDAO.getGenres(movie.movieId);
+        for(int i = 0; i < genresOfMovie.length; i++)
+            totalGenre += genresOfMovie[i];
+        double averageGenre = totalGenre / genresOfMovie.length;
         return averageGenre;
     }
 
@@ -53,8 +53,8 @@ public class PearsonCoefficient {
         double averageGenreOfMovie1 = averageGenreOfMovie(movie1);
         double averageGenreOfMovie2 = averageGenreOfMovie(movie2);
         for(int i = 0; i < noOfGenres; i++){
-            movie1Difference = movie1.genres.get(i) - averageGenreOfMovie1;
-            movie2Difference = movie2.genres.get(i) - averageGenreOfMovie2;
+            movie1Difference = movie1.genres[i] - averageGenreOfMovie1;
+            movie2Difference = movie2.genres[i] - averageGenreOfMovie2;
             numeratorSum += movie1Difference * movie2Difference;
             denominatorMovie1GenreSum += Utils.square(movie1Difference);
             denominatorMovie2GenreSum += Utils.square(movie2Difference);
