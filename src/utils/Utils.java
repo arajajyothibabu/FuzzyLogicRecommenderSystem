@@ -25,8 +25,8 @@ public class Utils {
         return new User(user.getInt(1), user.getString(2).charAt(0), user.getInt(3), user.getString(4), user.getInt(5));
     }
 
-    public static Movie makeMovie(ResultSet movie) throws Exception {
-        return new Movie(movie.getInt(1), movie.getString(2), objectToIntArray(movie.getArray(3).getArray()));
+    public static Movie makeMovie(ResultSet movie, double averageRating) throws Exception {
+        return new Movie(movie.getInt(1), movie.getString(2), averageRating, objectToIntArray(movie.getArray(3).getArray()));
     }
 
     public static int[] objectToIntArray(Object sqlObject) throws Exception {
@@ -50,8 +50,7 @@ public class Utils {
     }
 
     public static MovieRenderModel makeMovieRender(Movie movie) throws Exception {
-        double averageRating = OracleDAO.getAverageRatingToMovie(movie.movieId);
-        return new MovieRenderModel(movie.movieId, movie.title, averageRating, movie.genres);
+        return new MovieRenderModel(movie.movieId, movie.title, movie.rating, movie.genres);
     }
 
     public static ArrayList<MovieRenderModel> makeMovieRenderList(ArrayList<Movie> movies) throws Exception {

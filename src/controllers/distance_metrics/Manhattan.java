@@ -2,7 +2,6 @@ package controllers.distance_metrics;
 
 import controllers.OracleDAO;
 import models.*;
-import utils.Utils;
 
 import java.util.ArrayList;
 

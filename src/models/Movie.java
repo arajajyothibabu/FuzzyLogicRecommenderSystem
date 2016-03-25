@@ -12,11 +12,13 @@ public class Movie {
 
     public int movieId;
     public String title;
+    public double rating;
     public int[] genres;
 
-    public Movie(int movieId, String title, int[] genres) {
+    public Movie(int movieId, String title, double rating, int[] genres) {
         this.movieId = movieId;
         this.title = title;
+        this.rating = rating;
         this.genres = genres;
     }
 
@@ -37,6 +39,14 @@ public class Movie {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public double getRating() {
+        return rating;
+    }
+
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 
     public int[] getGenres() {
