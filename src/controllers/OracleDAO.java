@@ -28,7 +28,7 @@ public class OracleDAO {
         Connection connection = DB.openConnection();
         Statement statement = connection.createStatement();
         Boolean result = statement.execute("INSERT into movies values('" + movie.movieId + "', '" + movie.title + "', '" + movie.genres + "'");
-        DB.closeConnection();
+        connection.close();
         return result;
     }
 
@@ -40,7 +40,7 @@ public class OracleDAO {
         while(similarUsersFromDB.next()) {
             movieList.add(Utils.makeSimilarUser(similarUsersFromDB));
         }
-        DB.closeConnection();
+        connection.close();
         return movieList;
     }
 
@@ -71,7 +71,7 @@ public class OracleDAO {
         if(movieFromDB.next()) {
             returnArray = Utils.objectToIntArray(movieFromDB.getArray(3).getArray());
         }
-        DB.closeConnection();
+        connection.close();
         return returnArray;
     }
 
@@ -87,14 +87,38 @@ public class OracleDAO {
         return averageRating;
     }
 
+    //movies rated by user above averageRating
+    public static ArrayList<Movie> getMovies(ArrayList<User> users) throws Exception {
+        Connection connection = DB.openConnection();
+        Statement statement = connection.createStatement();
+        Statement ratingStatement = connection.createStatement();
+        ResultSet avgRatingFromDB = statement.executeQuery("SELECT AVG(rating) FROM ratings where userid IN '" + users + "'");
+        double averageRating = 0;
+        if(avgRatingFromDB.next()) {
+            averageRating = avgRatingFromDB.getDouble(1);
+        }
+        ArrayList<Movie> movieList = new ArrayList<Movie>();
+        ResultSet movieRatedByUser = statement.executeQuery("SELECT movieid from ratings where rating >= '" + averageRating + "' AND userid IN '" + users + "'");
+        ResultSet moviesFromDB;
+        while(movieRatedByUser.next()){
+            moviesFromDB = statement.executeQuery("SELECT * FROM movies where movieid != '" + movieRatedByUser.getInt(1) + "'");
+            if(moviesFromDB.next()) {
+                movieList.add(Utils.makeMovie(moviesFromDB, averageRating));
+            }
+        }
+        connection.close();
+        return movieList;
+    }
+
     public static ArrayList<Movie> getMovies(Movie movie) throws Exception {
         Connection connection = DB.openConnection();
         Statement statement = connection.createStatement();
+        Statement ratingStatement = connection.createStatement();
         ResultSet moviesFromDB = statement.executeQuery("SELECT * FROM movies where movieid != '" + movie.movieId + "'");
         ResultSet avgRatingFromDB;
         ArrayList<Movie> movieList = new ArrayList<Movie>();
         while(moviesFromDB.next()) {
-            avgRatingFromDB = statement.executeQuery("SELECT AVG(rating) FROM ratings where movieid = '" + moviesFromDB.getInt(1) + "'");
+            avgRatingFromDB = ratingStatement.executeQuery("SELECT AVG(rating) FROM ratings where movieid = '" + moviesFromDB.getInt(1) + "'");
             double averageRating = 0;
             if(avgRatingFromDB.next()) {
                 averageRating = avgRatingFromDB.getDouble(1);
@@ -112,7 +136,7 @@ public class OracleDAO {
         ArrayList<User> userList = new ArrayList<User>();
         while(usersFromDB.next())
             userList.add(Utils.makeUser(usersFromDB));
-        DB.closeConnection();
+        connection.close();
         return userList;
     }
 
@@ -123,7 +147,7 @@ public class OracleDAO {
         ArrayList<User> userList = new ArrayList<User>();
         while(usersFromDB.next())
             userList.add(Utils.makeUser(usersFromDB));
-        DB.closeConnection();
+        connection.close();
         return userList;
     }
 
@@ -134,7 +158,7 @@ public class OracleDAO {
         ArrayList<Rating> ratingList = new ArrayList<Rating>();
         while(ratingsFromDB.next())
             ratingList.add(Utils.makeRating(ratingsFromDB));
-        DB.closeConnection();
+        connection.close();
         return ratingList;
     }
 
