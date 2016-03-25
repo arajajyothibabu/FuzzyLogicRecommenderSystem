@@ -12,10 +12,12 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Movie Recommender System</title>
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" href="css/foundation.min.css" />
     <link rel="stylesheet" href="css/star-rating.min.css" type="text/css">
     <link rel="stylesheet" href="css/custom.css" type="text/css">
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/vendor/modernizr.js"></script>
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation/foundation.js"></script>
@@ -46,7 +48,7 @@
                         <form action="login.jsp" method="post" >
                             <div class="row" style="border-radius:5px;">
                                 <div class="large-12 columns">
-                                    <input type="number" placeholder="Valid Email" required />
+                                    <input type="number" placeholder="Username" required />
                                     <input type="password" placeholder="P@$$w0rd" required />
                                     <button type="submit" class="success button">Login</button>
                                 </div>

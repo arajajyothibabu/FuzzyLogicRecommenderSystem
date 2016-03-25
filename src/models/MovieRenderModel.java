@@ -12,16 +12,16 @@ public class MovieRenderModel {
 
     public int movieId;
     public String title;
-    public int rating;
+    public double rating;
     public String imgSrc;
     public String genres;
 
-    public MovieRenderModel(int movieId, String title, int rating) throws Exception {
+    public MovieRenderModel(int movieId, String title, double rating, int[] genres) throws Exception {
         this.movieId = movieId;
         this.title = title;
         this.rating = rating;
-        this.imgSrc =  "" + movieId + ".jpg";
-        this.genres = getGenres(movieId);
+        this.imgSrc =  "img/" + String.valueOf(movieId-100) + ".jpg";
+        this.genres = getGenres(genres);
     }
 
     public int getMovieId() {
@@ -40,18 +40,29 @@ public class MovieRenderModel {
         this.title = title;
     }
 
-    public String getGenres() {
-        return genres;
+    public double getRating() {
+        return rating;
     }
 
-    public void setGenres() throws Exception {
-        this.genres = getGenres(movieId);
+    public void setRating(double rating) {
+        this.rating = rating;
     }
 
-    public static String getGenres(int movieId) throws Exception {
+    public String getImgSrc() {
+        return imgSrc;
+    }
+
+    public void setImgSrc(String imgSrc) {
+        this.imgSrc = imgSrc;
+    }
+
+    public void setGenres(String genres) {
+        this.genres = genres;
+    }
+
+    public static String getGenres(int [] genreIds) throws Exception {
         ArrayList<String> genreList = Genre.getGenreList();
         StringBuilder genresData = new StringBuilder("");
-        int[] genreIds = OracleDAO.getGenres(movieId);
         for(int i = 0; i < genreList.size(); i++){
             if( genreIds[i] == 1)
                 genresData.append(genreList.get(i) + ", ");

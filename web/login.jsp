@@ -2,18 +2,18 @@
 <%@ page import="controllers.*" %>
 <%@ page import="utils.DB" %>
 <%
-    String username = request.getParameter("user");
+    int username = Integer.parseInt(request.getParameter("user"));
     String password = request.getParameter("pass");
     try{
         Connection con = DB.openConnection();
         Statement st = con.createStatement();
-        ResultSet resultSet = st.executeQuery("select * from authusers where user='" + username + "' and pass='" + password + "'");
+        ResultSet resultSet = st.executeQuery("select * from authusers where userid='" + username + "' and pass='" + password + "'");
         if (resultSet.next()) {
             session.setAttribute("user", username);
             response.sendRedirect("login.jsp?login=1");
         } else {
             //checking if username already exists
-            resultSet = st.executeQuery("select * from authusers where user='" + username + "'");
+            resultSet = st.executeQuery("select * from authusers where userid='" + username + "'");
             if(resultSet.next()) {
                 response.sendRedirect("index.jsp?attempt=1");
             }

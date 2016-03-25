@@ -1,5 +1,6 @@
 package utils;
 
+import controllers.OracleDAO;
 import models.*;
 
 import java.sql.ResultSet;
@@ -25,7 +26,15 @@ public class Utils {
     }
 
     public static Movie makeMovie(ResultSet movie) throws Exception {
-        return new Movie(movie.getInt(1), movie.getString(2), (int [])movie.getArray(3).getArray());
+        return new Movie(movie.getInt(1), movie.getString(2), objectToIntArray(movie.getArray(3).getArray()));
+    }
+
+    public static int[] objectToIntArray(Object sqlObject) throws Exception {
+        String[] strings = (String []) sqlObject;
+        int[] returnArray = new int[19];
+        for(int i = 0; i < strings.length; i++)
+            returnArray[i] = Integer.parseInt(strings[i]);
+        return returnArray;
     }
 
     public static Rating makeRating(ResultSet rating) throws Exception {
@@ -38,6 +47,18 @@ public class Utils {
 
     public static UserSimilarity makeSimilarUser(ResultSet similarUser) throws Exception {
         return new UserSimilarity(similarUser.getInt(1), similarUser.getInt(2), similarUser.getInt(3), similarUser.getInt(4));
+    }
+
+    public static MovieRenderModel makeMovieRender(Movie movie) throws Exception {
+        double averageRating = OracleDAO.getAverageRatingToMovie(movie.movieId);
+        return new MovieRenderModel(movie.movieId, movie.title, averageRating, movie.genres);
+    }
+
+    public static ArrayList<MovieRenderModel> makeMovieRenderList(ArrayList<Movie> movies) throws Exception {
+        ArrayList<MovieRenderModel> movieRenderModels = new ArrayList<>();
+        for(Movie movie : movies)
+            movieRenderModels.add(makeMovieRender(movie));
+        return movieRenderModels;
     }
 
     public static double square(double x){
@@ -79,6 +100,5 @@ public class Utils {
         }
         return sortedMap;
     }
-
 
 }
