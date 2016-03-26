@@ -1,11 +1,9 @@
 package controllers.fuzzy_inference_system;
 
 import controllers.OracleDAO;
-import controllers.distance_metrics.Cosine;
-import controllers.distance_metrics.Euclidean;
-import controllers.distance_metrics.Manhattan;
-import controllers.distance_metrics.PearsonCoefficient;
+import controllers.distance_metrics.*;
 import models.Movie;
+import models.MovieRenderModel;
 import models.User;
 import utils.Utils;
 
@@ -19,20 +17,37 @@ import java.util.Map;
  */
 public class FIS {
 
-    public static double choiceSimilarity(User user, int K) throws Exception {
-        ArrayList<User> otherUsers = OracleDAO.getUsers(user);
-        Map<User, Double> euclidianUsers = new HashMap<User, Double>();
-        Map<User, Double> manhattanUsers = new HashMap<User, Double>();
-        Map<User, Double> pearsonUsers = new HashMap<User, Double>();
-        Map<User, Double> cosineUsers = new HashMap<User, Double>();
-        for(User currentUser : otherUsers){
-            euclidianUsers.put(currentUser, Euclidean.dissimilarityBetweenUsers(user, currentUser));
-            manhattanUsers.put(currentUser, Manhattan.dissimilarityBetweenUsers(user, currentUser));
-            pearsonUsers.put(currentUser, PearsonCoefficient.dissimilarityBetweenUsers(user, currentUser));
-            cosineUsers.put(currentUser, Cosine.dissimilarityBetweenUsers(user, currentUser));
+    public static DistanceMetrics selectMethod(String method){
+        switch (Utils.DistanceMetric.valueOf(method)){
+            case Cosine: return new Cosine();
+            case Manhattan: return new Manhattan();
+            case Euclidean: return new Euclidean();
+            case Pearson: return new PearsonCoefficient();
+            default: return new PearsonCoefficient();
         }
+    }
+
+    public static Map<User, Double> similarUsers(User user, String method) throws Exception {
+        ArrayList<User> otherUsers = OracleDAO.getUsers(user);
+        Map<User, Double> similarUsers = new HashMap<User, Double>();
+        for(User currentUser : otherUsers){
+            similarUsers.put(currentUser, selectMethod(method).dissimilarityBetweenUsers(user, currentUser));
+        }
+        return similarUsers;
+    }
+
+    public static Map<Movie, Double> similarMovies(Movie movie, String method) throws Exception {
+        ArrayList<Movie> otherMovies = OracleDAO.getMovies(movie);
+        Map<Movie, Double> similarMovies = new HashMap<Movie, Double>();
+        for(Movie currentMovie : otherMovies){
+            similarMovies.put(currentMovie, selectMethod(method).dissimilarityBetweenMovies(movie, currentMovie));
+        }
+        return similarMovies;
+    }
+
+    public static double choiceSimilarity(User user, int K, String method) throws Exception {
         //FIXME: need to do properly for all methods
-        Map<User, Double> sortedUsers = Utils.sortUsersByDissimilarity(pearsonUsers);
+        Map<User, Double> sortedUsers = similarUsers(user, method);
         double sumOfDissimilarity = 0;
         List<User> keys = new ArrayList(sortedUsers.keySet());
         for(int i = 0; i < K; i++) {
@@ -41,26 +56,46 @@ public class FIS {
         return sumOfDissimilarity / K;
     }
 
-    public static double acceptanceRate(Movie movie, int K) throws Exception {
-        ArrayList<Movie> otherMovies = OracleDAO.getMovies(movie);
-        Map<Movie, Double> euclidianMovies = new HashMap<Movie, Double>();
-        Map<Movie, Double> manhattanMovies = new HashMap<Movie, Double>();
-        Map<Movie, Double> pearsonMovies = new HashMap<Movie, Double>();
-        Map<Movie, Double> cosineMovies = new HashMap<Movie, Double>();
-        for(Movie currentMovie : otherMovies){
-            euclidianMovies.put(currentMovie, Euclidean.dissimilarityBetweenMovies(movie, currentMovie));
-            manhattanMovies.put(currentMovie, Manhattan.dissimilarityBetweenMovies(movie, currentMovie));
-            pearsonMovies.put(currentMovie, PearsonCoefficient.dissimilarityBetweenMovies(movie, currentMovie));
-            cosineMovies.put(currentMovie, Cosine.dissimilarityBetweenMovies(movie, currentMovie));
+    public static ArrayList<User> similarKUsers(User user, int K, String method) throws Exception {
+        ArrayList<User> similarUsers = new ArrayList<>();
+        Map<User, Double> sortedUsers = similarUsers(user, method);
+        List<User> keys = new ArrayList(sortedUsers.keySet());
+        for(int i = 0; i < K; i++) {
+            similarUsers.add(keys.get(i));
         }
+        return similarUsers;
+    }
+
+    public static double acceptanceRate(Movie movie, int K, String method) throws Exception {
         //FIXME: need to do properly for all methods
-        Map<Movie, Double> sortedMovies = Utils.sortMoviesByDissimilarity(pearsonMovies);
+        Map<Movie, Double> sortedMovies = similarMovies(movie, method);
         double sumOfDissimilarity = 0;
         List<User> keys = new ArrayList(sortedMovies.keySet());
         for(int i = 0; i < K; i++) {
             sumOfDissimilarity += sortedMovies.get(sortedMovies.get(keys.get(i)));
         }
         return sumOfDissimilarity / K;
+    }
+
+    public static ArrayList<Movie> similarKMovies(Movie movie, int K, String method) throws Exception {
+        ArrayList<Movie> similarMovies = new ArrayList<>();
+        Map<Movie, Double> sortedMovies = similarMovies(movie, method);
+        List<Movie> keys = new ArrayList(sortedMovies.keySet());
+        for(int i = 0; i < K; i++) {
+            similarMovies.add(keys.get(i));
+        }
+        return similarMovies;
+    }
+
+    public static ArrayList<MovieRenderModel> processedMovies(int userId,int K, String method) throws Exception {
+        User user = OracleDAO.getUser(userId);
+        ArrayList<MovieRenderModel> movieList =  Utils.makeMovieRenderList(OracleDAO.getMovies(similarKUsers(user, K, method)));
+        return movieList;
+    }
+
+    public static ArrayList<MovieRenderModel> processedMovies(int userId) throws Exception {
+        ArrayList<MovieRenderModel> movieList =  Utils.makeMovieRenderList(OracleDAO.getMovies());
+        return movieList;
     }
 
 }
