@@ -1,6 +1,7 @@
 <%@ page import="models.MovieRenderModel" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="controllers.fuzzy_inference_system.FIS" %><%--
+<%@ page import="controllers.fuzzy_inference_system.FIS" %>
+<%@ page import="utils.Utils" %><%--
   Created by IntelliJ IDEA.
   User: Araja Jyothi Babu
   Date: 20-Mar-16
@@ -49,19 +50,12 @@
         </div>-->
         <div class="row">
             <div class="large-12 column">
-                <h1 align="center" style="font-family:'Lucida Calligraphy'; text-decoration:solid; border-bottom:ridge; border-bottom-color:aqua;">Welcome to the world of Innovation and Automation</h1>
+                <h1 align="center" style="font-family:'Lucida Calligraphy'; text-decoration:solid; border-bottom:ridge; border-bottom-color:aqua;">using Collaborative filtering</h1>
             </div>
         </div>
 
         <div class="row">
-            <div class="large-3 columns" style="padding:15px;">
-                <div class="row">
-                    <div class="large-12 medium-12 columns">
-
-                    </div>
-                </div>
-            </div>
-            <div class="large-9 columns" style="padding-left:50px; padding-right:50px; border-right:groove;">
+            <div class="large-12 columns" style="padding-left:20px; padding-right:20px;">
                 <div class="row">
                     <div class="large-12 medium-12 columns">
                         <%
@@ -73,46 +67,26 @@
                                     <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-5">
                         <%
                                     for(MovieRenderModel movie : recommendedMovieList) {
-                        %>
-                                        <li class="text-center center-block">
-                                            <img src="<% out.print(movie.imgSrc); %>">
-                                            <p class="title"><% out.print(movie.title); %></p>
-                                            <cite class="genres"><% out.print(movie.genres); %></cite>
-                                            <input type="text" id="" value="<% out.print(movie.rating); %>">
-                                        </li>
-                        <%
+                                        out.print(movie.renderMovie());
                                     }
                                 }catch (Exception e){
                                     out.print(e);
+                                    e.printStackTrace();
                                 }
                             }
                         %>
-                        <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3">
+                        <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-5">
                             <%
                                 try{
                                     movieList = FIS.processedMovies();
                                     for(MovieRenderModel movie : movieList) {
                                         if(! movie.presentIn(recommendedMovieList)){
-                            %>
-                                            <li class="text-center center-block">
-                                                <div class="panel panel-info">
-                                                    <div class="panel-heading">
-                                                        <span class="title"><% out.print(movie.title); %></span>
-                                                    </div>
-                                                    <div class="panel-body">
-                                                        <img src="<% out.print(movie.imgSrc); %>">
-                                                        <input type="text" id="" value="<% out.print(movie.rating); %>">
-                                                    </div>
-                                                    <div class="panel-footer panel-info">
-                                                        <cite class="genres"><% out.print(movie.genres); %></cite>
-                                                    </div>
-                                                </div>
-                                            </li>
-                            <%
+                                            out.print(movie.renderMovie());
                                         }
                                     }
                                 }catch(Exception e){
                                     out.print(e);
+                                    e.printStackTrace();
                                 }
                             %>
                         </ul>
@@ -120,4 +94,21 @@
                 </div>
             </div>
         </div>
+        <script>
+            $(document).ready(function(){
+                var rating_options = {
+                    min : 0,
+                    max : 5,
+                    step : 0.1,
+                    displayOnly :true,
+                    size : 'xs',
+                    stars : 5
+                };
+                $(".rating").each(function(){
+                    $(this).rating(rating_options);
+                });
+                $(".caption").remove();
+                $(".clear-rating").remove();
+            });
+        </script>
 <jsp:include page="includes/footer.jsp" />

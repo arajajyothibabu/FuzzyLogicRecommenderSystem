@@ -16,6 +16,9 @@ public class MovieRenderModel {
     public String imgSrc;
     public String genres;
 
+    public MovieRenderModel() {
+    }
+
     public MovieRenderModel(int movieId, String title, double rating, int[] genres) throws Exception {
         this.movieId = movieId;
         this.title = title;
@@ -68,6 +71,20 @@ public class MovieRenderModel {
                 genresData.append(genreList.get(i) + ", ");
         }
         return genresData.toString();
+    }
+
+    public String renderMovie(){
+        String movieRender = "<li class='text-center center-block'>" +
+                "   <a href='movie.jsp?id=" + this.movieId + "'>" +
+                "   <div class='panel panel-info'>" +
+                "       <div class='panel-heading'><span class='title'>" + Utils.trimTitle(this.title) + "</span></div>" +
+                "       <div class='panel-body'>" +
+                "           <img src='" + this.imgSrc + "'>" +
+                "           <input type='text' id='" + this.movieId + "-rating' class='rating' value='" + this.rating +"' data-krajee-rating='rating_options'>" +
+                "       </div>" +
+                "       <div class='panel-footer panel-info'><cite class='genres'>" + this.genres + "</cite></div>" +
+                "   </div></a></li>";
+        return movieRender;
     }
 
     @Override

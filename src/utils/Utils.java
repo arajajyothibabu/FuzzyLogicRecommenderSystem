@@ -60,6 +60,13 @@ public class Utils {
         return movieRenderModels;
     }
 
+    public static String trimTitle(String title){
+        if(title.length() > 18)
+            return title.substring(0, 15) + "...";
+        else
+            return title;
+    }
+
     public static double square(double x){
         return x * x;
     }

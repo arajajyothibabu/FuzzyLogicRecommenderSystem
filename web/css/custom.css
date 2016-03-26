@@ -29,8 +29,12 @@ placeholder {
 }
 .title{
     font-size: 13px !important;
+    text-transform: uppercase;
 }
 .genres{
     font-style: italic;
     font-size: 12px;
+}
+.rating-xs {
+    font-size : 0.6em !important;
 }

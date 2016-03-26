@@ -1,5 +1,8 @@
 <%@ page import="controllers.OracleDAO" %>
-<%@ page import="models.Rating" %><%--
+<%@ page import="models.Rating" %>
+<%@ page import="models.MovieRenderModel" %>
+<%@ page import="utils.Utils" %>
+<%@ page import="models.User" %><%--
   Created by IntelliJ IDEA.
   User: Araja Jyothi Babu
   Date: 21-Mar-16
@@ -7,60 +10,76 @@
   To change this template use File | Settings | File Templates.
 --%>
 <%
-    String id = request.getParameter("id");
-    String imgSrc = "img/" + id + ".jpg";
-    String title = request.getParameter("title");
-    String genreId = request.getParameter("genre");
-    int ratingValue = 0;
-    //TODO: Need to get genres
-    if(session.getAttribute("user") != null){
-        //Rating rating = OracleDAO.ratingOfUserToMovie((int)session.getAttribute("user"), id);
-        //int ratingValue = rating.rating;
-    }else{
-        ratingValue = 0;
+    Boolean userLoggedIn = false;
+    int userId = 0;
+    int rating = 0;
+    int movieId = 0;
+    String method = "";
+    int K = 5;
+    MovieRenderModel movie = new MovieRenderModel();
+    try{
+        movieId =  Integer.parseInt(Utils.replaceNull(request.getParameter("id").toString()));
+        movie = Utils.makeMovieRender(OracleDAO.getMovie(movieId));
+        if(session.getAttribute("user") != null){
+            userLoggedIn = true;
+            userId = Integer.parseInt(session.getAttribute("user").toString());
+            method = Utils.replaceNull(request.getParameter("method"));
+            Rating userRating = OracleDAO.ratingOfUserToMovie(userId, movieId);
+            rating = userRating.rating;
+        }
+    }catch (Exception e){
+        out.println(e);
     }
 %>
 <jsp:include page="includes/header.jsp" />
 <div class="row">
     <div class="large-12 column">
-        <h1 align="center" style="font-family:'Lucida Calligraphy'; text-decoration:solid; border-bottom:ridge; border-bottom-color:aqua;">Welcome to the world of Innovation and Automation</h1>
+        <h1 align="center" style="font-family:'Lucida Calligraphy'; text-decoration:solid; border-bottom:ridge; border-bottom-color:aqua;">using Collaborative filtering</h1>
     </div>
 </div>
 
 
 <div class="row">
-    <div class="large-3 columns" style="padding:15px;">
+    <div class="large-12 columns" style="padding-left:20px; padding-right:20px;">
+        <%
+            try{
+        %>
         <div class="row">
-            <div class="large-12 medium-12 columns">
-
+            <div class="large-6 medium-6 columns">
+                <p class="title"><% out.print(movie.title); %></p>
+                <img src="<% out.print(movie.imgSrc); %>">
+                <p class="genres"><% out.print(movie.genres); %></p>
+                <input class="rating" id="rating" value="<% out.print(rating); %>">
+            </div>
+            <div class="large-6 medium-6 columns">
+                <h3>Similar Movies</h3>
             </div>
         </div>
-    </div>
-    <div class="large-9 columns" style="padding-left:50px; padding-right:50px; border-right:groove;">
-        <div class="row">
-            <div class="large-12 medium-12 columns">
-                <div class="small-6 medium-4 large-3">
-                    <div class="">
-                        <img src="<% out.print(imgSrc); %>" >
-                    </div>
-                    <span class="left-align"><% out.print(title); %></span><span class="right-align"><cite>Genres</cite></span>
-                    <input class="text-center" id="<% out.print(id); %>-rating" value="<% out.print(ratingValue); %>">
-                    <script>
-                        $(document).ready(function(){
-                            $("#<% out.print(id); %>-rating").rating({
-                                step : 0.1,
-                                stars : 5,
-                                size : 'xs',
-                                displayOnly : true
-                            });
-                        });
-                    </script>
-                </div>
-                <%
-
-                %>
-            </div>
-        </div>
+        <%
+            }catch (Exception e){
+        %>
+        <h1 align="center" class="label-warning">No Movie Found</h1>
+        <%
+                out.println(e);
+            }
+        %>
     </div>
 </div>
+<script>
+    $(document).ready(function(){
+        $("#rating").rating({
+            step : 1,
+            min : 0,
+            max : 5,
+            stars : 5
+        });
+        $('#rating').on('rating.change', function(event, value, caption) {
+            <%
+                if(userLoggedIn){
+
+                }
+            %>
+        });
+    });
+</script>
 <jsp:include page="includes/footer.jsp" />
