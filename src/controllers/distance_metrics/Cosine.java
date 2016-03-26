@@ -12,7 +12,7 @@ import java.util.ArrayList;
 /**
  * Created by Araja Jyothi Babu on 16-Mar-16.
  */
-public class Cosine {
+public class Cosine implements DistanceMetrics {
 
     public static double dissimilarityBetweenUsers(User userU, User userV) throws Exception{
         ArrayList<UserSimilarity> similarityList = OracleDAO.getSimilarity(userU, userV);

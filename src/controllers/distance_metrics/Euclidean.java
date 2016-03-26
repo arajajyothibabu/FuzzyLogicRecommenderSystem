@@ -9,7 +9,7 @@ import java.util.ArrayList;
 /**
  * Created by Araja Jyothi Babu on 15-Mar-16.
  */
-public class Euclidean {
+public class Euclidean implements DistanceMetrics {
 
     //FIXME: userId ot userObject need to fix later
     public static double dissimilarityBetweenUsers(User userU, User userV) throws Exception {
