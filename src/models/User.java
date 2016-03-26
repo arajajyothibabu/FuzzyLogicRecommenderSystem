@@ -10,6 +10,9 @@ public class User {
     public String occupation;
     public int zipCode;
 
+    public User() {
+    }
+
     public User(int userId, char gender, int age, String occupation, int zipCode) {
         this.userId = userId;
         this.gender = gender;
