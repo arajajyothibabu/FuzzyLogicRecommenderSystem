@@ -70,4 +70,19 @@ public class MovieRenderModel {
         return genresData.toString();
     }
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof MovieRenderModel)) return false;
+
+        MovieRenderModel that = (MovieRenderModel) o;
+
+        return getMovieId() == that.getMovieId();
+
+    }
+
+    @Override
+    public int hashCode() {
+        return getMovieId();
+    }
 }
