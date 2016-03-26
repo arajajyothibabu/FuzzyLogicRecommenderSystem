@@ -85,4 +85,11 @@ public class MovieRenderModel {
     public int hashCode() {
         return getMovieId();
     }
+
+    public boolean presentIn(ArrayList<MovieRenderModel> movies){
+        for(MovieRenderModel currentMovie : movies)
+            return this.equals(currentMovie);
+        return false;
+    }
+
 }
