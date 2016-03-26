@@ -100,4 +100,8 @@ public class Utils {
         return sortedMap;
     }
 
+    public static enum DistanceMetric {
+        Cosine, Euclidean, Manhattan, Pearson
+    }
+
 }

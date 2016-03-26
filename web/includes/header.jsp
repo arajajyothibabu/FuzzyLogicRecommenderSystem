@@ -5,7 +5,7 @@
   Time: 11:00 AM
   To change this template use File | Settings | File Templates.
 --%>
-<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -13,16 +13,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Movie Recommender System</title>
     <link rel="stylesheet" href="css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/foundation.css" />
     <link rel="stylesheet" href="css/foundation.min.css" />
     <link rel="stylesheet" href="css/star-rating.min.css" type="text/css">
     <link rel="stylesheet" href="css/custom.css" type="text/css">
-    <script src="js/bootstrap.min.js"></script>
     <script src="js/vendor/modernizr.js"></script>
     <script src="js/vendor/jquery.js"></script>
     <script src="js/foundation/foundation.js"></script>
     <script src="js/foundation/foundation.orbit.js"></script>
     <script src="js/foundation/foundation.dropdown.js"></script>
+    <script src="js/bootstrap.min.js"></script>
     <script src="js/star-rating.min.js"></script>
 </head>
 <body>

@@ -90,18 +90,19 @@ public class OracleDAO {
     //movies rated by user above averageRating
     public static ArrayList<Movie> getMovies(ArrayList<User> users) throws Exception {
         Connection connection = DB.openConnection();
-        Statement statement = connection.createStatement();
+        Statement movieStatement = connection.createStatement();
+        Statement moviesStatement = connection.createStatement();
         Statement ratingStatement = connection.createStatement();
-        ResultSet avgRatingFromDB = statement.executeQuery("SELECT AVG(rating) FROM ratings where userid IN '" + users + "'");
+        ResultSet avgRatingFromDB = ratingStatement.executeQuery("SELECT AVG(rating) FROM ratings where userid IN '" + users + "'");
         double averageRating = 0;
         if(avgRatingFromDB.next()) {
             averageRating = avgRatingFromDB.getDouble(1);
         }
         ArrayList<Movie> movieList = new ArrayList<Movie>();
-        ResultSet movieRatedByUser = statement.executeQuery("SELECT movieid from ratings where rating >= '" + averageRating + "' AND userid IN '" + users + "'");
+        ResultSet movieRatedByUser = movieStatement.executeQuery("SELECT movieid from ratings where rating >= '" + averageRating + "' AND userid IN '" + users + "'");
         ResultSet moviesFromDB;
         while(movieRatedByUser.next()){
-            moviesFromDB = statement.executeQuery("SELECT * FROM movies where movieid != '" + movieRatedByUser.getInt(1) + "'");
+            moviesFromDB = moviesStatement.executeQuery("SELECT * FROM movies where movieid == '" + movieRatedByUser.getInt(1) + "'");
             if(moviesFromDB.next()) {
                 movieList.add(Utils.makeMovie(moviesFromDB, averageRating));
             }
@@ -138,6 +139,17 @@ public class OracleDAO {
             userList.add(Utils.makeUser(usersFromDB));
         connection.close();
         return userList;
+    }
+
+    public static User getUser(int userId) throws Exception {
+        Connection connection = DB.openConnection();
+        Statement statement = connection.createStatement();
+        ResultSet usersFromDB = statement.executeQuery("SELECT * FROM users where UserId == '" + userId + "'");
+        User user = new User(userId,'M',1,"",530048); //for user not found case : default user
+        if(usersFromDB.next())
+            user = Utils.makeUser(usersFromDB);
+        connection.close();
+        return user;
     }
 
     public static ArrayList<User> getUsers() throws Exception {

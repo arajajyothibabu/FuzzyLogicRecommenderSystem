@@ -8,7 +8,7 @@
 --%>
 <%
     String id = request.getParameter("id");
-    String imgSrc = "../img/" + id + ".jpg";
+    String imgSrc = "img/" + id + ".jpg";
     String title = request.getParameter("title");
     String genreId = request.getParameter("genre");
     int ratingValue = 0;

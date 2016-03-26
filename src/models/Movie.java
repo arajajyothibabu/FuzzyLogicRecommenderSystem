@@ -59,4 +59,30 @@ public class Movie {
 
     //NOTE: Genres list is obtained by genreId stored in DB which is Primary key of Genres table
 
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Movie)) return false;
+
+        Movie movie = (Movie) o;
+
+        if (getMovieId() != movie.getMovieId()) return false;
+        if (Double.compare(movie.getRating(), getRating()) != 0) return false;
+        if (!getTitle().equals(movie.getTitle())) return false;
+        return Arrays.equals(getGenres(), movie.getGenres());
+
+    }
+
+    @Override
+    public int hashCode() {
+        int result;
+        long temp;
+        result = getMovieId();
+        result = 31 * result + getTitle().hashCode();
+        temp = Double.doubleToLongBits(getRating());
+        result = 31 * result + (int) (temp ^ (temp >>> 32));
+        result = 31 * result + Arrays.hashCode(getGenres());
+        return result;
+    }
 }
