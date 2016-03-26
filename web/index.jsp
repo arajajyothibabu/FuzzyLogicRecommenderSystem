@@ -85,6 +85,7 @@
                                 try{
                                     movieList = FIS.processedMovies();
                                     for(MovieRenderModel movie : movieList) {
+                                        //FIXME: not executing properly
                                         if(!movie.presentIn(recommendedMovieList)){
                                             out.print(movie.renderMovie());
                                         }
