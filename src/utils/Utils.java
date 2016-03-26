@@ -21,6 +21,10 @@ public class Utils {
         return value==null? "0" : value;
     }
 
+    public static String replaceNull(String value, String replacingValue){
+        return value==null? replacingValue : value;
+    }
+
     public static User makeUser(ResultSet user) throws Exception {
         return new User(user.getInt(1), user.getString(2).charAt(0), user.getInt(3), user.getString(4), user.getInt(5));
     }
