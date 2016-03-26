@@ -80,7 +80,7 @@ public class MovieRenderModel {
                 "       <div class='panel-heading'><span class='title'>" + Utils.trimTitle(this.title) + "</span></div>" +
                 "       <div class='panel-body'>" +
                 "           <img src='" + this.imgSrc + "'>" +
-                "           <input type='text' id='" + this.movieId + "-rating' class='rating' value='" + this.rating +"' data-krajee-rating='rating_options'>" +
+                "           <input type='text' id='" + this.movieId + "-rating' class='readonly-rating' value='" + this.rating +"' data-krajee-rating='rating_options'>" +
                 "       </div>" +
                 "       <div class='panel-footer panel-info'><cite class='genres'>" + this.genres + "</cite></div>" +
                 "   </div></a></li>";
