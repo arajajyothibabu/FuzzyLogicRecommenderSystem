@@ -26,7 +26,8 @@ public class Utils {
     }
 
     public static User makeUser(ResultSet user) throws Exception {
-        return new User(user.getInt(1), user.getString(2).charAt(0), user.getInt(3), user.getString(4), user.getInt(5));
+        //return new User(user.getInt(1), user.getString(2).charAt(0), user.getInt(3), user.getString(4), user.getInt(5));
+        return new User(user.getInt(1), 'M', 2, "Nothing", 530048);
     }
 
     public static Movie makeMovie(ResultSet movie, double averageRating) throws Exception {

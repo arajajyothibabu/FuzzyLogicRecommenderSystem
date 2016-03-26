@@ -13,6 +13,7 @@
   Time: 10:54 PM
   To change this template use File | Settings | File Templates.
 --%>
+<jsp:include page="includes/header.jsp" />
 <%
     Boolean userLoggedIn = false;
     int userId = 0;
@@ -35,7 +36,6 @@
         out.println(e);
     }
 %>
-<jsp:include page="includes/header.jsp" />
 <div class="row">
     <div class="large-12 column">
         <h1 align="center" style="font-family:'Lucida Calligraphy'; text-decoration:solid; border-bottom:ridge; border-bottom-color:aqua;">using Collaborative filtering</h1>
@@ -89,22 +89,22 @@
         $('#movie-rating').on('rating.change', function(event, value, caption) {
             <%
                 if(userLoggedIn){
-
-
             %>
-                    //TODO: ajax call if needs
-                   /* $.ajax
+                    $.ajax
                     ({
                         type: "GET",
-                        url: "/rate.jsp?movieid=<% out.print(movie.movieId); %>&rating=" + value,
+                        url: "includes/rate.jsp?movie=<% out.print(movie.movieId); %>&rating=" + value,
                         dataType: 'text',
                         async: true,
                         contentType: "application/json; charset=utf-8"
-                    }).done( function () {
+                    }).done( function (data) {
+                        console.log(data);
+                        //if(data != "true")
+                            //alert("Rating failed");
                         //do something after rating
                     }).fail( function(){
                         alert("Rating failed..!");
-                    });*/
+                    });
             <%
                 }else{
             %>

@@ -18,7 +18,7 @@
     if(session.getAttribute("user") != null){
         userLoggedIn = true;
         userId = Integer.parseInt(session.getAttribute("user").toString());
-        method = request.getParameter("method");
+        method = Utils.replaceNull(request.getParameter("method"),"Pearson");
     }
     ArrayList<MovieRenderModel> recommendedMovieList = new ArrayList();
     ArrayList<MovieRenderModel> movieList = new ArrayList();
@@ -62,16 +62,21 @@
                             if(userLoggedIn){
                                 try{
                                     recommendedMovieList = FIS.processedMovies(userId, K, method);
+                                    if(recommendedMovieList.size() > 0){
                         %>
-                                    <h4 class="label-primary">Movies Recommended for you</h4>
-                                    <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-5">
+                                        <fieldset><legend>Movies Recommended for you</legend>
+                                            <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-5">
                         <%
-                                    for(MovieRenderModel movie : recommendedMovieList) {
-                                        out.print(movie.renderMovie());
+                                            for(MovieRenderModel movie : recommendedMovieList) {
+                                                out.print(movie.renderMovie());
+                                            }
+                        %>
+                                            </ul>
+                                        </fieldset>
+                        <%
                                     }
-                                }catch (Exception e){
+                                }catch (NumberFormatException e){
                                     out.print(e);
-                                    e.printStackTrace();
                                 }
                             }
                         %>
@@ -80,13 +85,12 @@
                                 try{
                                     movieList = FIS.processedMovies();
                                     for(MovieRenderModel movie : movieList) {
-                                        if(! movie.presentIn(recommendedMovieList)){
+                                        if(!movie.presentIn(recommendedMovieList)){
                                             out.print(movie.renderMovie());
                                         }
                                     }
                                 }catch(Exception e){
                                     out.print(e);
-                                    e.printStackTrace();
                                 }
                             %>
                         </ul>

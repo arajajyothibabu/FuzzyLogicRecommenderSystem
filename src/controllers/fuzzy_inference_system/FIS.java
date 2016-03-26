@@ -46,9 +46,9 @@ public class FIS {
     }
 
     public static double choiceSimilarity(User user, int K, String method) throws Exception {
-        //FIXME: need to do properly for all methods
         Map<User, Double> sortedUsers = similarUsers(user, method);
         double sumOfDissimilarity = 0;
+        K = sortedUsers.size() < K ? sortedUsers.size() : K;
         List<User> keys = new ArrayList(sortedUsers.keySet());
         for(int i = 0; i < K; i++) {
             sumOfDissimilarity += sortedUsers.get(sortedUsers.get(keys.get(i)));
@@ -59,6 +59,7 @@ public class FIS {
     public static ArrayList<User> similarKUsers(User user, int K, String method) throws Exception {
         ArrayList<User> similarUsers = new ArrayList<>();
         Map<User, Double> sortedUsers = similarUsers(user, method);
+        K = sortedUsers.size() < K ? sortedUsers.size() : K;
         List<User> keys = new ArrayList(sortedUsers.keySet());
         for(int i = 0; i < K; i++) {
             similarUsers.add(keys.get(i));
@@ -87,7 +88,7 @@ public class FIS {
         return similarMovies;
     }
 
-    public static ArrayList<MovieRenderModel> processedMovies(int userId,int K, String method) throws Exception {
+    public static ArrayList<MovieRenderModel> processedMovies(int userId, int K, String method) throws Exception {
         User user = OracleDAO.getUser(userId);
         ArrayList<MovieRenderModel> movieList =  Utils.makeMovieRenderList(OracleDAO.getMovies(similarKUsers(user, K, method)));
         return movieList;

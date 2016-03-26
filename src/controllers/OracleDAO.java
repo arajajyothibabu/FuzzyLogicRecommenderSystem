@@ -6,10 +6,7 @@ import models.User;
 import models.UserSimilarity;
 import utils.*;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.Statement;
+import java.sql.*;
 import java.util.ArrayList;
 
 /**
@@ -33,10 +30,14 @@ public class OracleDAO {
         return result;
     }
 
-    public static Boolean addRating(Rating rating) throws Exception {
+    public static boolean addRating(Rating rating) throws Exception {
         Connection connection = DB.openConnection();
-        Statement statement = connection.createStatement();
-        Boolean result = statement.execute("INSERT into ratings values('" + rating.movieId + "', '" + rating.userId + "', '" + rating.rating + "'");
+        PreparedStatement statement = connection.prepareStatement("INSERT into ratings values(?,?,?,?)");
+        statement.setInt(1, rating.userId);
+        statement.setInt(2, rating.movieId);
+        statement.setInt(3, rating.rating);
+        statement.setDate(4, Date.valueOf(rating.timeStamp));
+        boolean result = statement.execute();
         connection.close();
         return result;
     }
@@ -150,7 +151,7 @@ public class OracleDAO {
         ResultSet movieRatedByUser = movieStatement.executeQuery();
         ResultSet moviesFromDB;
         while(movieRatedByUser.next()){
-            moviesFromDB = moviesStatement.executeQuery("SELECT * FROM movies where movieid == '" + movieRatedByUser.getInt(1) + "'");
+            moviesFromDB = moviesStatement.executeQuery("SELECT * FROM movies where movieid = '" + movieRatedByUser.getInt(1) + "'");
             if(moviesFromDB.next()) {
                 movieList.add(Utils.makeMovie(moviesFromDB, averageRating));
             }
