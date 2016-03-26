@@ -2,7 +2,8 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="controllers.OracleDAO" %>
 <%@ page import="models.Movie" %>
-<%@ page import="utils.Utils" %><%--
+<%@ page import="utils.Utils" %>
+<%@ page import="controllers.fuzzy_inference_system.FIS" %><%--
   Created by IntelliJ IDEA.
   User: Araja Jyothi Babu
   Date: 20-Mar-16
@@ -10,6 +11,20 @@
   To change this template use File | Settings | File Templates.
 --%>
 <jsp:include page="includes/header.jsp" />
+<%
+    Boolean userLoggedIn = false;
+    int userId = 0;
+    String method = "";
+    int K = 5;
+    if(session.getAttribute("user") != null){
+        userLoggedIn = true;
+        userId = Integer.parseInt(session.getAttribute("user").toString());
+        method = request.getParameter("method");
+    }
+    ArrayList<MovieRenderModel> recommendedMovieList = new ArrayList<>();
+    ArrayList<MovieRenderModel> movieList = new ArrayList<>();
+
+%>
         <!-- Slider for home only
         <div class="row">
             <div class="orbit-container">
@@ -53,18 +68,47 @@
             <div class="large-9 columns" style="padding-left:50px; padding-right:50px; border-right:groove;">
                 <div class="row">
                     <div class="large-12 medium-12 columns">
+                        <%
+                            if(userLoggedIn){
+                                try{
+                                    recommendedMovieList = FIS.processedMovies(userId, K, method);
+                        %>
+                                    <h4 class="label-primary">Movies Recommended for you</h4>
+                                    <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-5">
+                        <%
+                                    for(MovieRenderModel movie : recommendedMovieList) {
+                        %>
+                                        <li class="text-center center-block">
+                                            <img src="<% out.print(movie.imgSrc); %>">
+                                            <p class="title"><% out.print(movie.title); %></p>
+                                            <cite class="genres"><% out.print(movie.genres); %></cite>
+                                            <input type="text" id="" value="<% out.print(movie.rating); %>">
+                                        </li>
+                        <%
+                                    }
+                                }catch (Exception e){
+                                    out.print(e);
+                                }
+                            }
+                        %>
                         <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-5">
                             <%
-                                ArrayList<MovieRenderModel> movieList = Utils.makeMovieRenderList(OracleDAO.getMovies());
-                                for(MovieRenderModel movie : movieList) {
+                                try{
+                                    movieList = FIS.processedMovies();
+                                    for(MovieRenderModel movie : movieList) {
+                                        if(! movie.presentIn(recommendedMovieList)){
                             %>
-                                <li class="text-center center-block">
-                                    <img src="<% out.print(movie.imgSrc); %>">
-                                    <p class="title"><% out.print(movie.title); %></p>
-                                    <cite class="genres"><% out.print(movie.genres); %></cite>
-                                    <input type="text" id="" value="<% out.print(movie.rating); %>">
-                                </li>
+                                            <li class="text-center center-block">
+                                                <img src="<% out.print(movie.imgSrc); %>">
+                                                <p class="title"><% out.print(movie.title); %></p>
+                                                <cite class="genres"><% out.print(movie.genres); %></cite>
+                                                <input type="text" id="" value="<% out.print(movie.rating); %>">
+                                            </li>
                             <%
+                                        }
+                                    }
+                                }catch(Exception e){
+                                    out.print(e);
                                 }
                             %>
                         </ul>
