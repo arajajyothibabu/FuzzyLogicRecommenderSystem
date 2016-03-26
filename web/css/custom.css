@@ -21,3 +21,16 @@ placeholder {
     text-decoration-color:#000000;
     background-color:#fff;
 }
+.title-container{
+    position: absolute;
+    z-index: 100;
+    width: inherit;
+    background-color: skyblue;
+}
+.title{
+    font-size: 13px !important;
+}
+.genres{
+    font-style: italic;
+    font-size: 12px;
+}

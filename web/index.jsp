@@ -1,8 +1,5 @@
 <%@ page import="models.MovieRenderModel" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="controllers.OracleDAO" %>
-<%@ page import="models.Movie" %>
-<%@ page import="utils.Utils" %>
 <%@ page import="controllers.fuzzy_inference_system.FIS" %><%--
   Created by IntelliJ IDEA.
   User: Araja Jyothi Babu
@@ -11,6 +8,7 @@
   To change this template use File | Settings | File Templates.
 --%>
 <jsp:include page="includes/header.jsp" />
+
 <%
     Boolean userLoggedIn = false;
     int userId = 0;
@@ -21,11 +19,10 @@
         userId = Integer.parseInt(session.getAttribute("user").toString());
         method = request.getParameter("method");
     }
-    ArrayList<MovieRenderModel> recommendedMovieList = new ArrayList<>();
-    ArrayList<MovieRenderModel> movieList = new ArrayList<>();
-
+    ArrayList<MovieRenderModel> recommendedMovieList = new ArrayList();
+    ArrayList<MovieRenderModel> movieList = new ArrayList();
 %>
-        <!-- Slider for home only
+<!-- Slider for home only
         <div class="row">
             <div class="orbit-container">
                 <ul data-orbit data-options="animation:slide;pause_on_hover:true;animation_speed:2000;navigation_arrows:true;bullets:false;">
@@ -55,7 +52,6 @@
                 <h1 align="center" style="font-family:'Lucida Calligraphy'; text-decoration:solid; border-bottom:ridge; border-bottom-color:aqua;">Welcome to the world of Innovation and Automation</h1>
             </div>
         </div>
-
 
         <div class="row">
             <div class="large-3 columns" style="padding:15px;">
@@ -91,7 +87,7 @@
                                 }
                             }
                         %>
-                        <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-5">
+                        <ul class="small-block-grid-1 medium-block-grid-2 large-block-grid-3">
                             <%
                                 try{
                                     movieList = FIS.processedMovies();
@@ -99,10 +95,18 @@
                                         if(! movie.presentIn(recommendedMovieList)){
                             %>
                                             <li class="text-center center-block">
-                                                <img src="<% out.print(movie.imgSrc); %>">
-                                                <p class="title"><% out.print(movie.title); %></p>
-                                                <cite class="genres"><% out.print(movie.genres); %></cite>
-                                                <input type="text" id="" value="<% out.print(movie.rating); %>">
+                                                <div class="panel panel-info">
+                                                    <div class="panel-heading">
+                                                        <span class="title"><% out.print(movie.title); %></span>
+                                                    </div>
+                                                    <div class="panel-body">
+                                                        <img src="<% out.print(movie.imgSrc); %>">
+                                                        <input type="text" id="" value="<% out.print(movie.rating); %>">
+                                                    </div>
+                                                    <div class="panel-footer panel-info">
+                                                        <cite class="genres"><% out.print(movie.genres); %></cite>
+                                                    </div>
+                                                </div>
                                             </li>
                             <%
                                         }
