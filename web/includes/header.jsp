@@ -24,9 +24,10 @@
     <script src="js/star-rating.min.js"></script>
 </head>
 <body>
+<jsp:include page="login.jsp" />
 <!-- Header -->
 <div class="row fullWidth" style="position:fixed; z-index:100; width:100%;">
-    <nav class="top-bar" data-topbar role="navigation">
+    <nav class="top-bar" data-topbar>
         <section class="top-bar-section">
             <ul class="title-area">
                 <li class="name">
@@ -63,7 +64,7 @@
 </div>
 <div id="signin" class="f-dropdown small content" data-dropdown-content>
     <!-- signin form here -->
-    <form action="login.jsp" method="post" >
+    <form action="" method="post" >
         <div class="row" style="border-radius:5px;">
             <div class="large-12 columns">
                 <div class="form-group">

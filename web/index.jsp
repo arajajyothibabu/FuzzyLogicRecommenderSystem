@@ -13,7 +13,7 @@
 <%
     Boolean userLoggedIn = false;
     int userId = 0;
-    String method = "";
+    String method = "Pearson";
     int K = 5;
     if(session.getAttribute("user") != null){
         userLoggedIn = true;
@@ -104,11 +104,9 @@
                     size : 'xs',
                     stars : 5
                 };
-                $(".rating").each(function(){
+                $(".readonly-rating").each(function(){
                     $(this).rating(rating_options);
                 });
-                $(".caption").remove();
-                $(".clear-rating").remove();
             });
         </script>
 <jsp:include page="includes/footer.jsp" />
