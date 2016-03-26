@@ -33,6 +33,14 @@ public class OracleDAO {
         return result;
     }
 
+    public static Boolean addRating(Rating rating) throws Exception {
+        Connection connection = DB.openConnection();
+        Statement statement = connection.createStatement();
+        Boolean result = statement.execute("INSERT into ratings values('" + rating.movieId + "', '" + rating.userId + "', '" + rating.rating + "'");
+        connection.close();
+        return result;
+    }
+
     public static ArrayList<UserSimilarity> getSimilarity(User userU, User userV) throws Exception {
         Connection connection = DB.openConnection();
         Statement statement = connection.createStatement();
@@ -89,7 +97,7 @@ public class OracleDAO {
         ResultSet movieFromDB = statement.executeQuery("SELECT genres FROM movies where movieid = '" + movieId + "'");
         int[] returnArray = new int[19];
         if(movieFromDB.next()) {
-            returnArray = Utils.objectToIntArray(movieFromDB.getArray(3).getArray());
+            returnArray = Utils.objectToIntArray(movieFromDB.getArray(1).getArray());
         }
         connection.close();
         return returnArray;
