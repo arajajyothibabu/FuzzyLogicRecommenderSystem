@@ -93,8 +93,14 @@ public class FIS {
         return movieList;
     }
 
-    public static ArrayList<MovieRenderModel> processedMovies(int userId) throws Exception {
+    public static ArrayList<MovieRenderModel> processedMovies() throws Exception {
         ArrayList<MovieRenderModel> movieList =  Utils.makeMovieRenderList(OracleDAO.getMovies());
+        return movieList;
+    }
+
+    public static ArrayList<MovieRenderModel> relatedMovies(int movieId, int K, String method) throws Exception {
+        Movie movie = OracleDAO.getMovie(movieId);
+        ArrayList<MovieRenderModel> movieList =  Utils.makeMovieRenderList(similarKMovies(movie, K, method));
         return movieList;
     }
 

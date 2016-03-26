@@ -63,6 +63,25 @@ public class OracleDAO {
         return movieList;
     }
 
+    public static Movie getMovie(int movieId) throws Exception {
+        Connection connection = DB.openConnection();
+        Statement statement = connection.createStatement();
+        Statement ratingStatement = connection.createStatement();
+        ResultSet moviesFromDB = statement.executeQuery("SELECT * FROM movies");
+        Movie movie = new Movie(movieId, "No Name",0, new int[19]); //dummy movie object
+        ResultSet avgRatingFromDB;
+        double averageRating = 0;
+        if(moviesFromDB.next()) {
+            avgRatingFromDB = ratingStatement.executeQuery("SELECT AVG(rating) FROM ratings where movieid = '" + moviesFromDB.getInt(1) + "'");
+            if(avgRatingFromDB.next()) {
+                averageRating = avgRatingFromDB.getDouble(1);
+            }
+            movie = Utils.makeMovie(moviesFromDB, averageRating);
+        }
+        connection.close();
+        return movie;
+    }
+
     public static int[] getGenres(int movieId) throws Exception {
         Connection connection = DB.openConnection();
         Statement statement = connection.createStatement();
