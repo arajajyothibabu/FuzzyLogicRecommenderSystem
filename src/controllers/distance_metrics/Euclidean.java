@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Euclidean implements DistanceMetrics {
 
     //FIXME: userId ot userObject need to fix later
-    public static double dissimilarityBetweenUsers(User userU, User userV) throws Exception {
+    public double dissimilarityBetweenUsers(User userU, User userV) throws Exception {
         ArrayList<UserSimilarity> similarityList = OracleDAO.getSimilarity(userU, userV);
         double sumOfSquares = 0;
         double ratingDifference = 0;
@@ -23,7 +23,7 @@ public class Euclidean implements DistanceMetrics {
         return Math.sqrt(sumOfSquares);
     }
 
-    public static double dissimilarityBetweenMovies(Movie movie1, Movie movie2) throws Exception {
+    public double dissimilarityBetweenMovies(Movie movie1, Movie movie2) throws Exception {
         ArrayList<String> genreList = Genre.getGenreList();
         double sumOfSquares = 0;
         double genreDifference = 0;

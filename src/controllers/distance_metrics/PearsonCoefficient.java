@@ -31,7 +31,7 @@ public class PearsonCoefficient implements DistanceMetrics {
         return averageGenre;
     }
 
-    public static double dissimilarityBetweenUsers(User userU, User userV) throws Exception{
+    public double dissimilarityBetweenUsers(User userU, User userV) throws Exception{
         ArrayList<UserSimilarity> similarityList = OracleDAO.getSimilarity(userU, userV);
         double numeratorSum = 0, denominatorUserUSum = 0, denominatorUserVSum = 0, userUDifference = 0, userVDifference = 0;
         double averageRatingOfUserU = averageRatingOfUser(userU);
@@ -46,7 +46,7 @@ public class PearsonCoefficient implements DistanceMetrics {
         return numeratorSum / (Math.sqrt(denominatorUserUSum) * Math.sqrt(denominatorUserVSum));
     }
 
-    public static double dissimilarityBetweenMovies(Movie movie1, Movie movie2) throws Exception {
+    public double dissimilarityBetweenMovies(Movie movie1, Movie movie2) throws Exception {
         ArrayList<String> genreList = Genre.getGenreList();
         int noOfGenres = genreList.size();
         double numeratorSum = 0, denominatorMovie1GenreSum = 0, denominatorMovie2GenreSum = 0, movie1Difference = 0, movie2Difference = 0;

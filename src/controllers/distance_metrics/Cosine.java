@@ -14,7 +14,7 @@ import java.util.ArrayList;
  */
 public class Cosine implements DistanceMetrics {
 
-    public static double dissimilarityBetweenUsers(User userU, User userV) throws Exception{
+    public double dissimilarityBetweenUsers(User userU, User userV) throws Exception{
         ArrayList<UserSimilarity> similarityList = OracleDAO.getSimilarity(userU, userV);
         double dotProduct = 0, ratingOfUserUMagnitude = 0, ratingOfUserVMagnitude = 0;
         for(UserSimilarity us : similarityList){
@@ -31,7 +31,7 @@ public class Cosine implements DistanceMetrics {
         }
     }
 
-    public static double dissimilarityBetweenMovies(Movie movie1, Movie movie2) throws Exception {
+    public double dissimilarityBetweenMovies(Movie movie1, Movie movie2) throws Exception {
         ArrayList<String> genreList = Genre.getGenreList();
         double dotProduct = 0, genreMovie1Magnitude = 0, genreMovie2Magnitude = 0;
         int genreOfMovie1 = 0, genreOfMovie2 = 0;

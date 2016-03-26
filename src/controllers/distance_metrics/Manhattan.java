@@ -10,7 +10,7 @@ import java.util.ArrayList;
  */
 public class Manhattan implements DistanceMetrics {
 
-    public static double dissimilarityBetweenUsers(User userU, User userV) throws Exception{
+    public double dissimilarityBetweenUsers(User userU, User userV) throws Exception{
         ArrayList<UserSimilarity> similarityList = OracleDAO.getSimilarity(userU, userV);
         double sumOfDifferences = 0;
         double ratingDifference = 0;
@@ -21,7 +21,7 @@ public class Manhattan implements DistanceMetrics {
         return sumOfDifferences;
     }
 
-    public static double dissimilarityBetweenMovies(Movie movie1, Movie movie2) throws Exception {
+    public double dissimilarityBetweenMovies(Movie movie1, Movie movie2) throws Exception {
         ArrayList<String> genreList = Genre.getGenreList();
         double sumOfDifferences = 0;
         double genreDifference = 0;
