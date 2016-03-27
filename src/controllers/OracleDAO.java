@@ -150,10 +150,11 @@ public class OracleDAO {
         }
         ResultSet movieRatedByUser = moviesStatement.executeQuery();
         ResultSet movieFromDB, avgRatingOfMovieFromDB;
+        Statement averageRatingToMovie = connection.createStatement();
         while(movieRatedByUser.next()){
             movieFromDB = movieStatement.executeQuery("SELECT * FROM movies where movieid = '" + movieRatedByUser.getInt(1) + "'");
             if(movieFromDB.next()) {
-                avgRatingOfMovieFromDB = movieStatement.executeQuery("SELECT AVG(rating) FROM ratings where movieid = '" + movieRatedByUser.getInt(1) + "'");
+                avgRatingOfMovieFromDB = averageRatingToMovie.executeQuery("SELECT AVG(rating) FROM ratings where movieid = '" + movieRatedByUser.getInt(1) + "'");
                 if(avgRatingOfMovieFromDB.next())
                     averageRating = avgRatingOfMovieFromDB.getDouble(1);
                 movieList.add(Utils.makeMovie(movieFromDB, averageRating));
