@@ -1,4 +1,4 @@
-<%--
+<%@ page import="utils.Utils" %><%--
   Created by IntelliJ IDEA.
   User: Araja Jyothi Babu
   Date: 21-Mar-16
@@ -25,6 +25,9 @@
 </head>
 <body>
 <jsp:include page="login.jsp" />
+<%
+    String activeMethod = Utils.replaceNull(request.getParameter("method"),"Pearson");
+%>
 <!-- Header -->
 <div class="row fullWidth" style="position:fixed; z-index:100; width:100%;">
     <nav class="top-bar" data-topbar>
@@ -45,10 +48,10 @@
                 <li class="has-dropdown">
                     <a href="#">Algorithms</a>
                     <ul class="dropdown">
-                        <li><a href="index.jsp?method=Euclidean">Euclidean</a></li>
-                        <li><a href="index.jsp?method=Manhattan">Manhattan</a></li>
-                        <li><a href="index.jsp?method=Cosine">Cosine</a></li>
-                        <li><a href="index.jsp?method=Pearson">Pearson Coefficient</a></li>
+                        <li <% if(Utils.DistanceMetric.valueOf(activeMethod).equals(Utils.DistanceMetric.Euclidean)) out.print("class='active'"); %>><a href="index.jsp?method=Euclidean">Euclidean</a></li>
+                        <li <% if(Utils.DistanceMetric.valueOf(activeMethod).equals(Utils.DistanceMetric.Manhattan)) out.print("class='active'"); %>><a href="index.jsp?method=Manhattan">Manhattan</a></li>
+                        <li <% if(Utils.DistanceMetric.valueOf(activeMethod).equals(Utils.DistanceMetric.Cosine)) out.print("class='active'"); %>><a href="index.jsp?method=Cosine">Cosine</a></li>
+                        <li <% if(Utils.DistanceMetric.valueOf(activeMethod).equals(Utils.DistanceMetric.Pearson)) out.print("class='active'"); %>><a href="index.jsp?method=Pearson">Pearson Coefficient</a></li>
                     </ul>
                 </li>
                 <li class="has-dropdown">

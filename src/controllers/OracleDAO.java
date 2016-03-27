@@ -130,7 +130,7 @@ public class OracleDAO {
     //movies rated by user above averageRating
     public static ArrayList<Movie> getMovies(ArrayList<User> users) throws Exception {
         Connection connection = DB.openConnection();
-        Statement moviesStatement = connection.createStatement();
+        Statement movieStatement = connection.createStatement();
         int noOfUsers = users.size();
         String selectClause = "SELECT AVG(rating) FROM ratings where userid";
         PreparedStatement ratingStatement = connection.prepareStatement(createQuery(selectClause, noOfUsers));
@@ -144,16 +144,19 @@ public class OracleDAO {
         }
         ArrayList<Movie> movieList = new ArrayList<Movie>();
         selectClause = "SELECT movieid from ratings where rating >= '" + averageRating + "' AND userid";
-        PreparedStatement movieStatement = connection.prepareStatement(createQuery(selectClause, noOfUsers));
+        PreparedStatement moviesStatement = connection.prepareStatement(createQuery(selectClause, noOfUsers));
         for(int i = 0; i < noOfUsers; i++){
-            movieStatement.setInt(i+1, users.get(i).userId);
+            moviesStatement.setInt(i+1, users.get(i).userId);
         }
-        ResultSet movieRatedByUser = movieStatement.executeQuery();
-        ResultSet moviesFromDB;
+        ResultSet movieRatedByUser = moviesStatement.executeQuery();
+        ResultSet movieFromDB, avgRatingOfMovieFromDB;
         while(movieRatedByUser.next()){
-            moviesFromDB = moviesStatement.executeQuery("SELECT * FROM movies where movieid = '" + movieRatedByUser.getInt(1) + "'");
-            if(moviesFromDB.next()) {
-                movieList.add(Utils.makeMovie(moviesFromDB, averageRating));
+            movieFromDB = movieStatement.executeQuery("SELECT * FROM movies where movieid = '" + movieRatedByUser.getInt(1) + "'");
+            if(movieFromDB.next()) {
+                avgRatingOfMovieFromDB = movieStatement.executeQuery("SELECT AVG(rating) FROM ratings where movieid = '" + movieRatedByUser.getInt(1) + "'");
+                if(avgRatingOfMovieFromDB.next())
+                    averageRating = avgRatingOfMovieFromDB.getDouble(1);
+                movieList.add(Utils.makeMovie(movieFromDB, averageRating));
             }
         }
         connection.close();

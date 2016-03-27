@@ -71,6 +71,7 @@ public class FIS {
         //FIXME: need to do properly for all methods
         Map<Movie, Double> sortedMovies = similarMovies(movie, method);
         double sumOfDissimilarity = 0;
+        K = sortedMovies.size() < K ? sortedMovies.size() : K;
         List<User> keys = new ArrayList(sortedMovies.keySet());
         for(int i = 0; i < K; i++) {
             sumOfDissimilarity += sortedMovies.get(sortedMovies.get(keys.get(i)));
@@ -81,6 +82,7 @@ public class FIS {
     public static ArrayList<Movie> similarKMovies(Movie movie, int K, String method) throws Exception {
         ArrayList<Movie> similarMovies = new ArrayList<>();
         Map<Movie, Double> sortedMovies = similarMovies(movie, method);
+        K = sortedMovies.size() < K ? sortedMovies.size() : K;
         List<Movie> keys = new ArrayList(sortedMovies.keySet());
         for(int i = 0; i < K; i++) {
             similarMovies.add(keys.get(i));
