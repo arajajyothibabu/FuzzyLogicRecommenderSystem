@@ -1,6 +1,6 @@
 package controllers.distance_metrics;
 
-import controllers.OracleDAO;
+import controllers.services.UserDataService;
 import models.*;
 import utils.Utils;
 
@@ -13,7 +13,7 @@ public class Euclidean implements DistanceMetrics {
 
     //FIXME: userId ot userObject need to fix later
     public double dissimilarityBetweenUsers(User userU, User userV) throws Exception {
-        ArrayList<UserSimilarity> similarityList = OracleDAO.getSimilarity(userU, userV);
+        ArrayList<UserSimilarity> similarityList = UserDataService.getSimilarity(userU, userV);
         double sumOfSquares = 0;
         double ratingDifference = 0;
         for(UserSimilarity us : similarityList){

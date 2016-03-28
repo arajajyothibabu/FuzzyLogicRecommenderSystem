@@ -24,6 +24,11 @@ public class UserDataService {
         return isAdded;
     }
 
+    public static ArrayList<UserSimilarity> getSimilarity(User userU, User userV) throws Exception {
+        ArrayList<UserSimilarity> movieList = OracleDAO.getSimilarity(userU, userV);
+        return movieList;
+    }
+
     public static ArrayList<User> getUsers(User user) throws Exception {
         ArrayList<User> userList = OracleDAO.getUsers(user);
         return userList;

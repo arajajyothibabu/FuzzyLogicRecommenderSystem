@@ -1,7 +1,8 @@
 package controllers.fuzzy_inference_system;
 
-import controllers.OracleDAO;
 import controllers.distance_metrics.*;
+import controllers.services.MovieDataService;
+import controllers.services.UserDataService;
 import models.Movie;
 import models.MovieRenderModel;
 import models.User;
@@ -28,7 +29,7 @@ public class FIS {
     }
 
     public static Map<User, Double> similarUsers(User user, String method) throws Exception {
-        ArrayList<User> otherUsers = OracleDAO.getUsers(user);
+        ArrayList<User> otherUsers = UserDataService.getUsers(user);
         Map<User, Double> similarUsers = new HashMap<User, Double>();
         for(User currentUser : otherUsers){
             similarUsers.put(currentUser, selectMethod(method).dissimilarityBetweenUsers(user, currentUser));
@@ -37,7 +38,7 @@ public class FIS {
     }
 
     public static Map<Movie, Double> similarMovies(Movie movie, String method) throws Exception {
-        ArrayList<Movie> otherMovies = OracleDAO.getMovies(movie);
+        ArrayList<Movie> otherMovies = MovieDataService.getMovies(movie);
         Map<Movie, Double> similarMovies = new HashMap<Movie, Double>();
         for(Movie currentMovie : otherMovies){
             similarMovies.put(currentMovie, selectMethod(method).dissimilarityBetweenMovies(movie, currentMovie));
@@ -91,18 +92,18 @@ public class FIS {
     }
 
     public static ArrayList<MovieRenderModel> processedMovies(int userId, int K, String method) throws Exception {
-        User user = OracleDAO.getUser(userId);
-        ArrayList<MovieRenderModel> movieList =  Utils.makeMovieRenderList(OracleDAO.getMovies(similarKUsers(user, K, method)));
+        User user = UserDataService.getUser(userId);
+        ArrayList<MovieRenderModel> movieList =  Utils.makeMovieRenderList(MovieDataService.getMovies(similarKUsers(user, K, method)));
         return movieList;
     }
 
     public static ArrayList<MovieRenderModel> processedMovies() throws Exception {
-        ArrayList<MovieRenderModel> movieList =  Utils.makeMovieRenderList(OracleDAO.getMovies());
+        ArrayList<MovieRenderModel> movieList =  Utils.makeMovieRenderList(MovieDataService.getMovies());
         return movieList;
     }
 
     public static ArrayList<MovieRenderModel> relatedMovies(int movieId, int K, String method) throws Exception {
-        Movie movie = OracleDAO.getMovie(movieId);
+        Movie movie = MovieDataService.getMovie(movieId);
         ArrayList<MovieRenderModel> movieList =  Utils.makeMovieRenderList(similarKMovies(movie, K, method));
         return movieList;
     }

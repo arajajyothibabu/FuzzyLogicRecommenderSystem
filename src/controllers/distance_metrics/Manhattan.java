@@ -1,6 +1,6 @@
 package controllers.distance_metrics;
 
-import controllers.OracleDAO;
+import controllers.services.UserDataService;
 import models.*;
 
 import java.util.ArrayList;
@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class Manhattan implements DistanceMetrics {
 
     public double dissimilarityBetweenUsers(User userU, User userV) throws Exception{
-        ArrayList<UserSimilarity> similarityList = OracleDAO.getSimilarity(userU, userV);
+        ArrayList<UserSimilarity> similarityList = UserDataService.getSimilarity(userU, userV);
         double sumOfDifferences = 0;
         double ratingDifference = 0;
         for(UserSimilarity us : similarityList){

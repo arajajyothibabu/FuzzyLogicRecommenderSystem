@@ -23,11 +23,6 @@ public class RatingDataService {
         return isRated;
     }
 
-    public static ArrayList<UserSimilarity> getSimilarity(User userU, User userV) throws Exception {
-        ArrayList<UserSimilarity> movieList = OracleDAO.getSimilarity(userU, userV);
-        return movieList;
-    }
-
     public static double getAverageRatingToMovie(int movieId) throws Exception {
         double averageRating = OracleDAO.getAverageRatingToMovie(movieId);
         return averageRating;

@@ -1,6 +1,6 @@
 package controllers.distance_metrics;
 
-import controllers.OracleDAO;
+import controllers.services.UserDataService;
 import models.Genre;
 import models.Movie;
 import models.User;
@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Cosine implements DistanceMetrics {
 
     public double dissimilarityBetweenUsers(User userU, User userV) throws Exception{
-        ArrayList<UserSimilarity> similarityList = OracleDAO.getSimilarity(userU, userV);
+        ArrayList<UserSimilarity> similarityList = UserDataService.getSimilarity(userU, userV);
         double dotProduct = 0, ratingOfUserUMagnitude = 0, ratingOfUserVMagnitude = 0;
         for(UserSimilarity us : similarityList){
             dotProduct += us.ratingU * us.ratingV;
@@ -42,10 +42,10 @@ public class Cosine implements DistanceMetrics {
             genreMovie1Magnitude += Utils.square(genreOfMovie1);
             genreMovie2Magnitude += Utils.square(genreOfMovie2);
         }
-        double cosineSimilary = 0;
+        double cosineSimilarity = 0;
         try{
-            cosineSimilary = dotProduct / (Math.sqrt(genreMovie1Magnitude) * Math.sqrt(genreMovie2Magnitude));
-            return cosineSimilary;
+            cosineSimilarity = dotProduct / (Math.sqrt(genreMovie1Magnitude) * Math.sqrt(genreMovie2Magnitude));
+            return cosineSimilarity;
         }catch (Exception e){
             return 0;
         }

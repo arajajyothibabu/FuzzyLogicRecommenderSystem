@@ -1,12 +1,11 @@
-<%@ page import="controllers.OracleDAO" %>
 <%@ page import="models.Rating" %>
 <%@ page import="models.MovieRenderModel" %>
 <%@ page import="utils.Utils" %>
-<%@ page import="models.User" %>
-<%@ page import="models.Movie" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="controllers.fuzzy_inference_system.FIS" %>
-<%@ page import="java.sql.SQLException" %><%--
+<%@ page import="java.sql.SQLException" %>
+<%@ page import="controllers.services.MovieDataService" %>
+<%@ page import="controllers.services.RatingDataService" %><%--
   Created by IntelliJ IDEA.
   User: Araja Jyothi Babu
   Date: 21-Mar-16
@@ -24,12 +23,12 @@
     MovieRenderModel movie = new MovieRenderModel();
     try{
         movieId =  Integer.parseInt(Utils.replaceNull(request.getParameter("id").toString()));
-        movie = Utils.makeMovieRender(OracleDAO.getMovie(movieId));
+        movie = Utils.makeMovieRender(MovieDataService.getMovie(movieId));
         if(session.getAttribute("user") != null){
             userLoggedIn = true;
             userId = Integer.parseInt(session.getAttribute("user").toString());
             method = Utils.replaceNull(request.getParameter("method"), "Pearson");
-            Rating userRating = OracleDAO.ratingOfUserToMovie(userId, movieId);
+            Rating userRating = RatingDataService.ratingOfUserToMovie(userId, movieId);
             rating = userRating.rating;
         }
     }catch (Exception e){

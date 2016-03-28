@@ -1,6 +1,8 @@
 package controllers.distance_metrics;
 
-import controllers.OracleDAO;
+import controllers.services.MovieDataService;
+import controllers.services.RatingDataService;
+import controllers.services.UserDataService;
 import models.*;
 import utils.Utils;
 
@@ -13,7 +15,7 @@ public class PearsonCoefficient implements DistanceMetrics {
 
     public static double averageRatingOfUser(User user) throws Exception {
         double totalRating = 0;
-        ArrayList<Rating> ratingsOfUser = OracleDAO.getRatingsOfUser(user.userId);
+        ArrayList<Rating> ratingsOfUser = RatingDataService.getRatingsOfUser(user.userId);
         for(Rating rating : ratingsOfUser)
             totalRating += rating.rating;
         int ratingsCount = ratingsOfUser.size();
@@ -24,7 +26,7 @@ public class PearsonCoefficient implements DistanceMetrics {
 
     public static double averageGenreOfMovie(Movie movie) throws Exception {
         double totalGenre = 0;
-        int[] genresOfMovie = OracleDAO.getGenres(movie.movieId);
+        int[] genresOfMovie = MovieDataService.getGenres(movie.movieId);
         for(int i = 0; i < genresOfMovie.length; i++)
             totalGenre += genresOfMovie[i];
         double averageGenre = totalGenre / genresOfMovie.length;
@@ -32,7 +34,7 @@ public class PearsonCoefficient implements DistanceMetrics {
     }
 
     public double dissimilarityBetweenUsers(User userU, User userV) throws Exception{
-        ArrayList<UserSimilarity> similarityList = OracleDAO.getSimilarity(userU, userV);
+        ArrayList<UserSimilarity> similarityList = UserDataService.getSimilarity(userU, userV);
         double numeratorSum = 0, denominatorUserUSum = 0, denominatorUserVSum = 0, userUDifference = 0, userVDifference = 0;
         double averageRatingOfUserU = averageRatingOfUser(userU);
         double averageRatingOfUserV = averageRatingOfUser(userV);
