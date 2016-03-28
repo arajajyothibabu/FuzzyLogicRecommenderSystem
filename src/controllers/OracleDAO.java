@@ -14,18 +14,18 @@ import java.util.ArrayList;
  */
 public class OracleDAO {
 
-    public static Boolean addUser(User user) throws Exception {
+    public static boolean addUser(User user) throws Exception {
         Connection connection = DB.openConnection();
         Statement statement = connection.createStatement();
-        Boolean result = statement.execute("INSERT into users values('" + user.userId + "', '" + user.gender + "', '" + user.age + "', '" + user.occupation + "', '" + user.zipCode + "')");
+        boolean result = statement.execute("INSERT into users values('" + user.userId + "', '" + user.gender + "', '" + user.age + "', '" + user.occupation + "', '" + user.zipCode + "')");
         connection.close();
         return result;
     }
 
-    public static Boolean addMovie(Movie movie) throws Exception {
+    public static boolean addMovie(Movie movie) throws Exception {
         Connection connection = DB.openConnection();
         Statement statement = connection.createStatement();
-        Boolean result = statement.execute("INSERT into movies values('" + movie.movieId + "', '" + movie.title + "', '" + movie.genres + "'");
+        boolean result = statement.execute("INSERT into movies values('" + movie.movieId + "', '" + movie.title + "', '" + movie.genres + "'");
         connection.close();
         return result;
     }
