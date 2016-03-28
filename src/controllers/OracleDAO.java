@@ -1,13 +1,11 @@
 package controllers;
 
-import models.Movie;
-import models.Rating;
-import models.User;
-import models.UserSimilarity;
+import models.*;
 import utils.*;
 
 import java.sql.*;
 import java.util.ArrayList;
+import java.util.Stack;
 
 /**
  * Created by Araja Jyothi Babu on 20-Mar-16.
@@ -143,7 +141,7 @@ public class OracleDAO {
             averageRating = avgRatingFromDB.getDouble(1);
         }
         ArrayList<Movie> movieList = new ArrayList<Movie>();
-        selectClause = "SELECT movieid from ratings where rating >= '" + averageRating + "' AND userid";
+        selectClause = "SELECT DISTINCT(movieid) from ratings where rating >= '" + averageRating + "' AND userid";
         PreparedStatement moviesStatement = connection.prepareStatement(createQuery(selectClause, noOfUsers));
         for(int i = 0; i < noOfUsers; i++){
             moviesStatement.setInt(i+1, users.get(i).userId);
@@ -164,6 +162,30 @@ public class OracleDAO {
         return movieList;
     }
 
+    public static ArrayList<Movie> getRestOfMovies(ArrayList<MovieRenderModel> movies) throws Exception {
+        Connection connection = DB.openConnection();
+        int noOfMovies = movies.size();
+        ArrayList<Movie> movieList = new ArrayList<Movie>();
+        String selectClause = "SELECT * FROM movies WHERE movieid NOT ";
+        PreparedStatement movieStatement = connection.prepareStatement(createQuery(selectClause, noOfMovies));
+        for(int i = 0; i < noOfMovies; i++){
+            movieStatement.setInt(i+1, movies.get(i).movieId);
+        }
+        ResultSet moviesFromDB = movieStatement.executeQuery();
+        Statement avgRatingStatement = connection.createStatement();
+        ResultSet averageRatingFromDB;
+        double averageRating = 0;
+        while(moviesFromDB.next()){
+            averageRatingFromDB = avgRatingStatement.executeQuery("SELECT AVG(rating) FROM ratings where movieid = '" + moviesFromDB.getInt(1) + "'");
+            if(averageRatingFromDB.next()){
+                averageRating = averageRatingFromDB.getDouble(1);
+            }
+            movieList.add(Utils.makeMovie(moviesFromDB, averageRating));
+        }
+        connection.close();
+        return movieList;
+    }
+
     public static ArrayList<Movie> getMovies(Movie movie) throws Exception {
         Connection connection = DB.openConnection();
         Statement statement = connection.createStatement();
@@ -171,9 +193,9 @@ public class OracleDAO {
         ResultSet moviesFromDB = statement.executeQuery("SELECT * FROM movies where movieid != '" + movie.movieId + "'");
         ResultSet avgRatingFromDB;
         ArrayList<Movie> movieList = new ArrayList<Movie>();
+        double averageRating = 0;
         while(moviesFromDB.next()) {
             avgRatingFromDB = ratingStatement.executeQuery("SELECT AVG(rating) FROM ratings where movieid = '" + moviesFromDB.getInt(1) + "'");
-            double averageRating = 0;
             if(avgRatingFromDB.next()) {
                 averageRating = avgRatingFromDB.getDouble(1);
             }

@@ -91,10 +91,14 @@ public class FIS {
         return similarMovies;
     }
 
-    public static ArrayList<MovieRenderModel> processedMovies(int userId, int K, String method) throws Exception {
+    public static ArrayList<ArrayList<MovieRenderModel>> processedMovies(int userId, int K, String method) throws Exception {
         User user = UserDataService.getUser(userId);
-        ArrayList<MovieRenderModel> movieList =  Utils.makeMovieRenderList(MovieDataService.getMovies(similarKUsers(user, K, method)));
-        return movieList;
+        ArrayList<MovieRenderModel> recommendedMovieList =  Utils.makeMovieRenderList(MovieDataService.getMovies(similarKUsers(user, K, method)));
+        ArrayList<MovieRenderModel> restOfMoviesList =  Utils.makeMovieRenderList(MovieDataService.getRestOfMovies(recommendedMovieList));
+        ArrayList<ArrayList<MovieRenderModel>> processedMovieList =  new ArrayList<>();
+        processedMovieList.add(recommendedMovieList);
+        processedMovieList.add(restOfMoviesList);
+        return processedMovieList;
     }
 
     public static ArrayList<MovieRenderModel> processedMovies() throws Exception {

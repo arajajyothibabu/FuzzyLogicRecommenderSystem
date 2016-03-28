@@ -15,13 +15,19 @@
     int userId = 0;
     String method = "Pearson";
     int K = 5;
+    ArrayList<ArrayList<MovieRenderModel>> fullMovieList = new ArrayList();
+    ArrayList<MovieRenderModel> recommendedMovieList = new ArrayList();
+    ArrayList<MovieRenderModel> restOfMovieList = new ArrayList();
     if(session.getAttribute("user") != null){
         userLoggedIn = true;
         userId = Integer.parseInt(session.getAttribute("user").toString());
         method = Utils.replaceNull(request.getParameter("method"),"Pearson");
+        fullMovieList = FIS.processedMovies(userId, K, method);
+        recommendedMovieList = fullMovieList.get(0);
+        restOfMovieList = fullMovieList.get(1);
+    }else{
+        restOfMovieList = FIS.processedMovies();
     }
-    ArrayList<MovieRenderModel> recommendedMovieList = new ArrayList();
-    ArrayList<MovieRenderModel> movieList = new ArrayList();
 %>
         <div class="row">
             <div class="large-12 column">
@@ -35,38 +41,25 @@
                     <div class="large-12 medium-12 columns">
                         <%
                             if(userLoggedIn){
-                                try{
-                                    recommendedMovieList = FIS.processedMovies(userId, K, method);
-                                    if(recommendedMovieList.size() > 0){
+                                if(recommendedMovieList.size() > 0){
                         %>
-                                        <fieldset><legend>Movies Recommended for you</legend>
-                                            <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-5">
+                                    <fieldset><legend>Movies Recommended for you</legend>
+                                        <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-5">
                         <%
-                                            for(MovieRenderModel movie : recommendedMovieList) {
-                                                out.print(movie.renderMovie());
-                                            }
+                                        for(MovieRenderModel movie : recommendedMovieList) {
+                                            out.print(movie.renderMovie());
+                                        }
                         %>
-                                            </ul>
-                                        </fieldset>
+                                        </ul>
+                                    </fieldset>
                         <%
-                                    }
-                                }catch (Exception e){
-                                    out.print(e);
                                 }
                             }
                         %>
                         <ul class="small-block-grid-2 medium-block-grid-3 large-block-grid-5">
                             <%
-                                try{
-                                    movieList = FIS.processedMovies();
-                                    for(MovieRenderModel movie : movieList) {
-                                        //FIXME: not executing properly
-                                        if(!movie.presentIn(recommendedMovieList)){
-                                            out.print(movie.renderMovie());
-                                        }
-                                    }
-                                }catch(Exception e){
-                                    out.print(e);
+                                for(MovieRenderModel movie : restOfMovieList) {
+                                    out.print(movie.renderMovie());
                                 }
                             %>
                         </ul>

@@ -1,10 +1,7 @@
 package controllers.services;
 
 import controllers.OracleDAO;
-import models.Movie;
-import models.Rating;
-import models.User;
-import models.UserSimilarity;
+import models.*;
 import utils.DB;
 import utils.Utils;
 
@@ -41,6 +38,11 @@ public class MovieDataService {
     //movies rated by user above averageRating
     public static ArrayList<Movie> getMovies(ArrayList<User> users) throws Exception {
         ArrayList<Movie> movieList = OracleDAO.getMovies(users);
+        return movieList;
+    }
+
+    public static ArrayList<Movie> getRestOfMovies(ArrayList<MovieRenderModel> movies) throws Exception {
+        ArrayList<Movie> movieList = OracleDAO.getRestOfMovies(movies);
         return movieList;
     }
 
