@@ -3,7 +3,6 @@
 <%@ page import="utils.Utils" %>
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="controllers.fuzzy_inference_system.FIS" %>
-<%@ page import="java.sql.SQLException" %>
 <%@ page import="controllers.services.MovieDataService" %>
 <%@ page import="controllers.services.RatingDataService" %><%--
   Created by IntelliJ IDEA.
@@ -68,7 +67,7 @@
             </div>
         </div>
         <%
-            }catch (NumberFormatException e){
+            }catch (Exception e){
         %>
         <h1 align="center" class="label-warning">No Movie Found</h1>
         <%
