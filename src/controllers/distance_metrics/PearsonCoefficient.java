@@ -13,9 +13,19 @@ import java.util.ArrayList;
  */
 public class PearsonCoefficient implements DistanceMetrics {
 
+    private static RatingDataService ratingDataService;
+    private static UserDataService userDataService;
+    private static MovieDataService movieDataService;
+
+    public PearsonCoefficient(RatingDataService ratingDataService, UserDataService userDataService, MovieDataService movieDataService) {
+        this.ratingDataService = ratingDataService;
+        this.userDataService = userDataService;
+        this.movieDataService = movieDataService;
+    }
+
     public static double averageRatingOfUser(User user) throws Exception {
         double totalRating = 0;
-        ArrayList<Rating> ratingsOfUser = RatingDataService.getRatingsOfUser(user.userId);
+        ArrayList<Rating> ratingsOfUser = ratingDataService.getRatingsOfUser(user.userId);
         for(Rating rating : ratingsOfUser)
             totalRating += rating.rating;
         int ratingsCount = ratingsOfUser.size();
@@ -26,7 +36,7 @@ public class PearsonCoefficient implements DistanceMetrics {
 
     public static double averageGenreOfMovie(Movie movie) throws Exception {
         double totalGenre = 0;
-        int[] genresOfMovie = MovieDataService.getGenres(movie.movieId);
+        int[] genresOfMovie = movieDataService.getGenres(movie.movieId);
         for(int i = 0; i < genresOfMovie.length; i++)
             totalGenre += genresOfMovie[i];
         double averageGenre = totalGenre / genresOfMovie.length;
@@ -34,7 +44,7 @@ public class PearsonCoefficient implements DistanceMetrics {
     }
 
     public double dissimilarityBetweenUsers(User userU, User userV) throws Exception{
-        ArrayList<UserSimilarity> similarityList = UserDataService.getSimilarity(userU, userV);
+        ArrayList<UserSimilarity> similarityList = userDataService.getSimilarity(userU, userV);
         double numeratorSum = 0, denominatorUserUSum = 0, denominatorUserVSum = 0, userUDifference = 0, userVDifference = 0;
         double averageRatingOfUserU = averageRatingOfUser(userU);
         double averageRatingOfUserV = averageRatingOfUser(userV);

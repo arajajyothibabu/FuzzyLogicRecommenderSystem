@@ -2,7 +2,9 @@
 <%@ page import="controllers.OracleDAO" %>
 <%@ page import="models.Rating" %>
 <%@ page import="java.util.Date" %>
-<%@ page import="java.util.Calendar" %><%--
+<%@ page import="java.util.Calendar" %>
+<%@ page import="controllers.services.RatingDataService" %>
+<%@ page import="utils.DB" %><%--
   Created by IntelliJ IDEA.
   User: Araja Jyothi Babu
   Date: 26-Mar-16
@@ -15,8 +17,9 @@
     int movieId =  Integer.parseInt(Utils.replaceNull(request.getParameter("movie").toString()));
     int rating =  Integer.parseInt(Utils.replaceNull(request.getParameter("rating").toString()));
     try{
+        RatingDataService ratingDataService = new RatingDataService(new OracleDAO(new DB()));
         Rating currentRating = new Rating(userId, movieId, rating, new java.sql.Date(Calendar.getInstance().getTimeInMillis()).toString());
-        out.print(OracleDAO.addRating(currentRating));
+        out.print(ratingDataService.addRating(currentRating));
     }catch (Exception e){
         out.print(e);
     }

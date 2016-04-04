@@ -13,41 +13,45 @@ import java.util.ArrayList;
  */
 public class MovieDataService {
 
-    private static String tableName = "movies";
+    private OracleDAO dao;
 
-    public static boolean addMovie(Movie movie) throws Exception {
-        boolean isAdded = OracleDAO.addMovie(movie);
+    public MovieDataService(OracleDAO dao) {
+        this.dao = dao;
+    }
+
+    public boolean addMovie(Movie movie) throws Exception {
+        boolean isAdded = dao.addMovie(movie);
         return isAdded;
     }
 
-    public static ArrayList<Movie> getMovies() throws Exception {
-        ArrayList<Movie> movieList = OracleDAO.getMovies();
+    public ArrayList<Movie> getMovies() throws Exception {
+        ArrayList<Movie> movieList = dao.getMovies();
         return movieList;
     }
 
-    public static Movie getMovie(int movieId) throws Exception {
-        Movie movie = OracleDAO.getMovie(movieId);
+    public Movie getMovie(int movieId) throws Exception {
+        Movie movie = dao.getMovie(movieId);
         return movie;
     }
 
-    public static int[] getGenres(int movieId) throws Exception {
-        int[] genres = OracleDAO.getGenres(movieId);
+    public int[] getGenres(int movieId) throws Exception {
+        int[] genres = dao.getGenres(movieId);
         return genres;
     }
 
     //movies rated by user above averageRating
-    public static ArrayList<Movie> getMovies(ArrayList<User> users) throws Exception {
-        ArrayList<Movie> movieList = OracleDAO.getMovies(users);
+    public ArrayList<Movie> getMovies(ArrayList<User> users) throws Exception {
+        ArrayList<Movie> movieList = dao.getMovies(users);
         return movieList;
     }
 
-    public static ArrayList<Movie> getRestOfMovies(ArrayList<MovieRenderModel> movies) throws Exception {
-        ArrayList<Movie> movieList = OracleDAO.getRestOfMovies(movies);
+    public ArrayList<Movie> getRestOfMovies(ArrayList<MovieRenderModel> movies) throws Exception {
+        ArrayList<Movie> movieList = dao.getRestOfMovies(movies);
         return movieList;
     }
 
-    public static ArrayList<Movie> getMovies(Movie movie) throws Exception {
-        ArrayList<Movie> movieList = OracleDAO.getMovies(movie);
+    public ArrayList<Movie> getMovies(Movie movie) throws Exception {
+        ArrayList<Movie> movieList = dao.getMovies(movie);
         return movieList;
     }
 

@@ -2,6 +2,7 @@ package controllers.fuzzy_inference_system;
 
 import controllers.distance_metrics.*;
 import controllers.services.MovieDataService;
+import controllers.services.RatingDataService;
 import controllers.services.UserDataService;
 import models.Movie;
 import models.MovieRenderModel;
@@ -18,18 +19,28 @@ import java.util.Map;
  */
 public class FIS {
 
+    private static RatingDataService ratingDataService;
+    private static MovieDataService movieDataService;
+    private static UserDataService userDataService;
+
+    public FIS(RatingDataService ratingDataService, MovieDataService movieDataService, UserDataService userDataService) {
+        this.ratingDataService = ratingDataService;
+        this.movieDataService = movieDataService;
+        this.userDataService = userDataService;
+    }
+
     public static DistanceMetrics selectMethod(String method){
         switch (Utils.DistanceMetric.valueOf(method)){
-            case Cosine: return new Cosine();
-            case Manhattan: return new Manhattan();
-            case Euclidean: return new Euclidean();
-            case Pearson: return new PearsonCoefficient();
-            default: return new PearsonCoefficient();
+            case Cosine: return new Cosine(userDataService);
+            case Manhattan: return new Manhattan(userDataService);
+            case Euclidean: return new Euclidean(userDataService);
+            case Pearson: return new PearsonCoefficient(ratingDataService, userDataService, movieDataService);
+            default: return new PearsonCoefficient(ratingDataService, userDataService, movieDataService);
         }
     }
 
     public static Map<User, Double> similarUsers(User user, String method) throws Exception {
-        ArrayList<User> otherUsers = UserDataService.getUsers(user);
+        ArrayList<User> otherUsers = userDataService.getUsers(user);
         Map<User, Double> similarUsers = new HashMap<User, Double>();
         for(User currentUser : otherUsers){
             similarUsers.put(currentUser, selectMethod(method).dissimilarityBetweenUsers(user, currentUser));
@@ -38,7 +49,7 @@ public class FIS {
     }
 
     public static Map<Movie, Double> similarMovies(Movie movie, String method) throws Exception {
-        ArrayList<Movie> otherMovies = MovieDataService.getMovies(movie);
+        ArrayList<Movie> otherMovies = movieDataService.getMovies(movie);
         Map<Movie, Double> similarMovies = new HashMap<Movie, Double>();
         for(Movie currentMovie : otherMovies){
             similarMovies.put(currentMovie, selectMethod(method).dissimilarityBetweenMovies(movie, currentMovie));
@@ -91,23 +102,23 @@ public class FIS {
         return similarMovies;
     }
 
-    public static ArrayList<ArrayList<MovieRenderModel>> processedMovies(int userId, int K, String method) throws Exception {
-        User user = UserDataService.getUser(userId);
-        ArrayList<MovieRenderModel> recommendedMovieList =  Utils.makeMovieRenderList(MovieDataService.getMovies(similarKUsers(user, K, method)));
-        ArrayList<MovieRenderModel> restOfMoviesList =  Utils.makeMovieRenderList(MovieDataService.getRestOfMovies(recommendedMovieList));
+    public ArrayList<ArrayList<MovieRenderModel>> processedMovies(int userId, int K, String method) throws Exception {
+        User user = userDataService.getUser(userId);
+        ArrayList<MovieRenderModel> recommendedMovieList =  Utils.makeMovieRenderList(movieDataService.getMovies(similarKUsers(user, K, method)));
+        ArrayList<MovieRenderModel> restOfMoviesList =  Utils.makeMovieRenderList(movieDataService.getRestOfMovies(recommendedMovieList));
         ArrayList<ArrayList<MovieRenderModel>> processedMovieList =  new ArrayList<>();
         processedMovieList.add(recommendedMovieList);
         processedMovieList.add(restOfMoviesList);
         return processedMovieList;
     }
 
-    public static ArrayList<MovieRenderModel> processedMovies() throws Exception {
-        ArrayList<MovieRenderModel> movieList =  Utils.makeMovieRenderList(MovieDataService.getMovies());
+    public ArrayList<MovieRenderModel> processedMovies() throws Exception {
+        ArrayList<MovieRenderModel> movieList =  Utils.makeMovieRenderList(movieDataService.getMovies());
         return movieList;
     }
 
-    public static ArrayList<MovieRenderModel> relatedMovies(int movieId, int K, String method) throws Exception {
-        Movie movie = MovieDataService.getMovie(movieId);
+    public ArrayList<MovieRenderModel> relatedMovies(int movieId, int K, String method) throws Exception {
+        Movie movie = movieDataService.getMovie(movieId);
         ArrayList<MovieRenderModel> movieList =  Utils.makeMovieRenderList(similarKMovies(movie, K, method));
         return movieList;
     }

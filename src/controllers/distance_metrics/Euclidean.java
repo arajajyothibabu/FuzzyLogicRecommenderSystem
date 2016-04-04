@@ -11,9 +11,15 @@ import java.util.ArrayList;
  */
 public class Euclidean implements DistanceMetrics {
 
+    UserDataService userDataService;
+
+    public Euclidean(UserDataService userDataService) {
+        this.userDataService = userDataService;
+    }
+
     //FIXME: userId ot userObject need to fix later
     public double dissimilarityBetweenUsers(User userU, User userV) throws Exception {
-        ArrayList<UserSimilarity> similarityList = UserDataService.getSimilarity(userU, userV);
+        ArrayList<UserSimilarity> similarityList = userDataService.getSimilarity(userU, userV);
         double sumOfSquares = 0;
         double ratingDifference = 0;
         for(UserSimilarity us : similarityList){

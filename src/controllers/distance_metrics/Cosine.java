@@ -14,8 +14,14 @@ import java.util.ArrayList;
  */
 public class Cosine implements DistanceMetrics {
 
+    UserDataService userDataService;
+
+    public Cosine(UserDataService userDataService) {
+        this.userDataService = userDataService;
+    }
+
     public double dissimilarityBetweenUsers(User userU, User userV) throws Exception{
-        ArrayList<UserSimilarity> similarityList = UserDataService.getSimilarity(userU, userV);
+        ArrayList<UserSimilarity> similarityList = userDataService.getSimilarity(userU, userV);
         double dotProduct = 0, ratingOfUserUMagnitude = 0, ratingOfUserVMagnitude = 0;
         for(UserSimilarity us : similarityList){
             dotProduct += us.ratingU * us.ratingV;

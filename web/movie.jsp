@@ -4,7 +4,10 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="controllers.fuzzy_inference_system.FIS" %>
 <%@ page import="controllers.services.MovieDataService" %>
-<%@ page import="controllers.services.RatingDataService" %><%--
+<%@ page import="controllers.services.RatingDataService" %>
+<%@ page import="controllers.OracleDAO" %>
+<%@ page import="utils.DB" %>
+<%@ page import="controllers.services.UserDataService" %><%--
   Created by IntelliJ IDEA.
   User: Araja Jyothi Babu
   Date: 21-Mar-16
@@ -20,14 +23,20 @@
     String method = "Pearson";
     int K = 5;
     MovieRenderModel movie = new MovieRenderModel();
+    DB db = new DB();
+    OracleDAO dao = new OracleDAO(db);
+    RatingDataService ratingDataService = new RatingDataService(dao);
+    MovieDataService movieDataService = new MovieDataService(dao);
+    UserDataService userDataService = new UserDataService(dao);
+    FIS fis = new FIS(ratingDataService, movieDataService, userDataService);
     try{
         movieId =  Integer.parseInt(Utils.replaceNull(request.getParameter("id").toString()));
-        movie = Utils.makeMovieRender(MovieDataService.getMovie(movieId));
+        movie = Utils.makeMovieRender(movieDataService.getMovie(movieId));
         if(session.getAttribute("user") != null){
             userLoggedIn = true;
             userId = Integer.parseInt(session.getAttribute("user").toString());
             method = Utils.replaceNull(request.getParameter("method"), "Pearson");
-            Rating userRating = RatingDataService.ratingOfUserToMovie(userId, movieId);
+            Rating userRating = ratingDataService.ratingOfUserToMovie(userId, movieId);
             rating = userRating.rating;
         }
     }catch (Exception e){
@@ -59,7 +68,7 @@
                 <h3>Similar Movies</h3>
                 <ul class="small-block-grid-0 medium-block-grid-2 large-block-grid-3 related">
                 <%
-                    ArrayList<MovieRenderModel> movies = FIS.relatedMovies(movieId, K, method);
+                    ArrayList<MovieRenderModel> movies = fis.relatedMovies(movieId, K, method);
                     for(MovieRenderModel currentMovie : movies){
                         out.print(currentMovie.renderMovie());
                     }
@@ -101,7 +110,7 @@
                             //alert("Rating failed");
                         //do something after rating
                     }).fail( function(){
-                        alert("Rating failed..!");
+                        $(this).rating(); //FIXME: need to empty stars in failed condition
                     });
             <%
                 }else{

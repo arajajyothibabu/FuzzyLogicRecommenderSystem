@@ -16,31 +16,34 @@ import java.util.ArrayList;
  */
 public class UserDataService {
 
-    private static String tableName = "users";
-    private static String authTable = "authusers";
+    private OracleDAO dao;
 
-    public static boolean addUser(User user) throws Exception {
-        boolean isAdded = OracleDAO.addUser(user);
+    public UserDataService(OracleDAO dao) {
+        this.dao = dao;
+    }
+
+    public boolean addUser(User user) throws Exception {
+        boolean isAdded = dao.addUser(user);
         return isAdded;
     }
 
-    public static ArrayList<UserSimilarity> getSimilarity(User userU, User userV) throws Exception {
-        ArrayList<UserSimilarity> movieList = OracleDAO.getSimilarity(userU, userV);
+    public ArrayList<UserSimilarity> getSimilarity(User userU, User userV) throws Exception {
+        ArrayList<UserSimilarity> movieList = dao.getSimilarity(userU, userV);
         return movieList;
     }
 
-    public static ArrayList<User> getUsers(User user) throws Exception {
-        ArrayList<User> userList = OracleDAO.getUsers(user);
+    public ArrayList<User> getUsers(User user) throws Exception {
+        ArrayList<User> userList = dao.getUsers(user);
         return userList;
     }
 
-    public static User getUser(int userId) throws Exception {
-        User user = OracleDAO.getUser(userId);
+    public User getUser(int userId) throws Exception {
+        User user = dao.getUser(userId);
         return user;
     }
 
-    public static ArrayList<User> getUsers() throws Exception {
-        ArrayList<User> userList = OracleDAO.getUsers();
+    public ArrayList<User> getUsers() throws Exception {
+        ArrayList<User> userList = dao.getUsers();
         return userList;
     }
 

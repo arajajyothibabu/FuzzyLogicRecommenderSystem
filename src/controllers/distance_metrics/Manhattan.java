@@ -10,8 +10,14 @@ import java.util.ArrayList;
  */
 public class Manhattan implements DistanceMetrics {
 
+    UserDataService userDataService;
+
+    public Manhattan(UserDataService userDataService) {
+        this.userDataService = userDataService;
+    }
+
     public double dissimilarityBetweenUsers(User userU, User userV) throws Exception{
-        ArrayList<UserSimilarity> similarityList = UserDataService.getSimilarity(userU, userV);
+        ArrayList<UserSimilarity> similarityList = userDataService.getSimilarity(userU, userV);
         double sumOfDifferences = 0;
         double ratingDifference = 0;
         for(UserSimilarity us : similarityList){
