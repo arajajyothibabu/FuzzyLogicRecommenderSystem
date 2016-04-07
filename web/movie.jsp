@@ -7,7 +7,9 @@
 <%@ page import="controllers.services.RatingDataService" %>
 <%@ page import="controllers.OracleDAO" %>
 <%@ page import="utils.DB" %>
-<%@ page import="controllers.services.UserDataService" %><%--
+<%@ page import="controllers.services.UserDataService" %>
+<%@ page import="models.Movie" %>
+<%@ page import="controllers.services.MovieServie" %><%--
   Created by IntelliJ IDEA.
   User: Araja Jyothi Babu
   Date: 21-Mar-16
@@ -23,22 +25,20 @@
     String method = "Pearson";
     int K = 5;
     MovieRenderModel movie = new MovieRenderModel();
-    DB db = new DB();
-    OracleDAO dao = new OracleDAO(db);
-    RatingDataService ratingDataService = new RatingDataService(dao);
-    MovieDataService movieDataService = new MovieDataService(dao);
-    UserDataService userDataService = new UserDataService(dao);
-    FIS fis = new FIS(ratingDataService, movieDataService, userDataService);
+    MovieServie movieServie;
+    ArrayList<MovieRenderModel> relatedMovies = new ArrayList();
     try{
         movieId =  Integer.parseInt(Utils.replaceNull(request.getParameter("id").toString()));
-        movie = Utils.makeMovieRender(movieDataService.getMovie(movieId));
         if(session.getAttribute("user") != null){
             userLoggedIn = true;
             userId = Integer.parseInt(session.getAttribute("user").toString());
             method = Utils.replaceNull(request.getParameter("method"), "Pearson");
-            Rating userRating = ratingDataService.ratingOfUserToMovie(userId, movieId);
-            rating = userRating.rating;
+            movieServie = new MovieServie(movieId, K, method);
+        }else{
+            movieServie = new MovieServie(userId, movieId, K, method);
         }
+        movie = movieServie.getMovie();
+        relatedMovies = movieServie.getRelatedMovieList();
     }catch (Exception e){
         out.println(e);
     }
@@ -62,14 +62,13 @@
                     <img src="<% out.print(movie.imgSrc); %>">
                     <p class="genres"><% out.print(movie.genres); %></p>
                 </div>
-                <input id="movie-rating" value="<% out.print(rating); %>">
+                <input id="movie-rating" value="<% out.print(movie.rating); %>">
             </div>
             <div class="large-7 medium-6 columns">
                 <h3>Similar Movies</h3>
                 <ul class="small-block-grid-0 medium-block-grid-2 large-block-grid-3 related">
                 <%
-                    ArrayList<MovieRenderModel> movies = fis.relatedMovies(movieId, K, method);
-                    for(MovieRenderModel currentMovie : movies){
+                    for(MovieRenderModel currentMovie : relatedMovies){
                         out.print(currentMovie.renderMovie());
                     }
                 %>
