@@ -6,7 +6,8 @@
 <%@ page import="controllers.services.RatingDataService" %>
 <%@ page import="controllers.OracleDAO" %>
 <%@ page import="controllers.services.MovieDataService" %>
-<%@ page import="controllers.services.UserDataService" %><%--
+<%@ page import="controllers.services.UserDataService" %>
+<%@ page import="controllers.services.IndexService" %><%--
   Created by IntelliJ IDEA.
   User: Araja Jyothi Babu
   Date: 20-Mar-16
@@ -16,7 +17,6 @@
 <jsp:include page="includes/header.jsp" />
 
 <%
-    ArrayList<ArrayList<MovieRenderModel>> fullMovieList = new ArrayList();
     ArrayList<MovieRenderModel> recommendedMovieList = new ArrayList();
     ArrayList<MovieRenderModel> restOfMovieList = new ArrayList();
     Boolean userLoggedIn = false;
@@ -24,18 +24,16 @@
     String method = "Pearson";
     int K = 5;
     try{
-        DB db = new DB();
-        OracleDAO dao = new OracleDAO(db);
-        FIS fis = new FIS(new RatingDataService(dao), new MovieDataService(dao), new UserDataService(dao));
         if(session.getAttribute("user") != null){
             userLoggedIn = true;
             userId = Integer.parseInt(session.getAttribute("user").toString());
             method = Utils.replaceNull(request.getParameter("method"),"Pearson");
-            fullMovieList = fis.processedMovies(userId, K, method);
-            recommendedMovieList = fullMovieList.get(0);
-            restOfMovieList = fullMovieList.get(1);
+            IndexService indexService = new IndexService(userId, K, method);
+            recommendedMovieList = indexService.getRecommendedMovieList();
+            restOfMovieList = indexService.getRestOfMovieList();
         }else{
-            restOfMovieList = fis.processedMovies();
+            IndexService indexService = new IndexService();
+            restOfMovieList = indexService.getRestOfMovieList();
         }
     }catch(Exception e){
         //catched it :)
