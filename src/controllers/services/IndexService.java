@@ -20,9 +20,9 @@ public class IndexService {
     ArrayList<MovieRenderModel> restOfMovieList;
 
     public IndexService() throws Exception{
-        DB db = new DB();
-        OracleDAO dao = new OracleDAO(db);
-        FIS fis = new FIS(new RatingDataService(dao), new MovieDataService(dao), new UserDataService(dao));
+        db = new DB();
+        dao = new OracleDAO(db);
+        fis = new FIS(new RatingDataService(dao), new MovieDataService(dao), new UserDataService(dao));
         restOfMovieList = fis.processedMovies();
     }
 
