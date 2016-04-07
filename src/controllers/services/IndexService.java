@@ -27,9 +27,9 @@ public class IndexService {
     }
 
     public IndexService(int userId, int K, String method) throws Exception{
-        DB db = new DB();
-        OracleDAO dao = new OracleDAO(db);
-        FIS fis = new FIS(new RatingDataService(dao), new MovieDataService(dao), new UserDataService(dao));
+        db = new DB();
+        dao = new OracleDAO(db);
+        fis = new FIS(new RatingDataService(dao), new MovieDataService(dao), new UserDataService(dao));
         fullMovieList = fis.processedMovies(userId, K, method);
         recommendedMovieList = fullMovieList.get(0);
         restOfMovieList = fullMovieList.get(1);

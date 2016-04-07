@@ -2,13 +2,6 @@
 <%@ page import="models.MovieRenderModel" %>
 <%@ page import="utils.Utils" %>
 <%@ page import="java.util.ArrayList" %>
-<%@ page import="controllers.fuzzy_inference_system.FIS" %>
-<%@ page import="controllers.services.MovieDataService" %>
-<%@ page import="controllers.services.RatingDataService" %>
-<%@ page import="controllers.OracleDAO" %>
-<%@ page import="utils.DB" %>
-<%@ page import="controllers.services.UserDataService" %>
-<%@ page import="models.Movie" %>
 <%@ page import="controllers.services.MovieService" %>
 <%--
   Created by IntelliJ IDEA.

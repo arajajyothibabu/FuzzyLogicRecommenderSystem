@@ -1,10 +1,5 @@
 <%@ page import="utils.Utils" %>
-<%@ page import="controllers.OracleDAO" %>
-<%@ page import="models.Rating" %>
-<%@ page import="java.util.Date" %>
-<%@ page import="java.util.Calendar" %>
-<%@ page import="controllers.services.RatingDataService" %>
-<%@ page import="utils.DB" %><%--
+<%@ page import="controllers.services.RatingService" %><%--
   Created by IntelliJ IDEA.
   User: Araja Jyothi Babu
   Date: 26-Mar-16
@@ -17,9 +12,8 @@
     int movieId =  Integer.parseInt(Utils.replaceNull(request.getParameter("movie").toString()));
     int rating =  Integer.parseInt(Utils.replaceNull(request.getParameter("rating").toString()));
     try{
-        RatingDataService ratingDataService = new RatingDataService(new OracleDAO(new DB()));
-        Rating currentRating = new Rating(userId, movieId, rating, new java.sql.Date(Calendar.getInstance().getTimeInMillis()).toString());
-        out.print(ratingDataService.addRating(currentRating));
+        RatingService ratingService = new RatingService(userId, movieId, rating);
+        out.print(ratingService.doRating());
     }catch (Exception e){
         out.print(e);
     }
