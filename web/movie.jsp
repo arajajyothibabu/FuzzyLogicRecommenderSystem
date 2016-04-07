@@ -9,7 +9,8 @@
 <%@ page import="utils.DB" %>
 <%@ page import="controllers.services.UserDataService" %>
 <%@ page import="models.Movie" %>
-<%@ page import="controllers.services.MovieServie" %><%--
+<%@ page import="controllers.services.MovieService" %>
+<%--
   Created by IntelliJ IDEA.
   User: Araja Jyothi Babu
   Date: 21-Mar-16
@@ -25,7 +26,7 @@
     String method = "Pearson";
     int K = 5;
     MovieRenderModel movie = new MovieRenderModel();
-    MovieServie movieServie;
+    MovieService movieService;
     ArrayList<MovieRenderModel> relatedMovies = new ArrayList();
     try{
         movieId =  Integer.parseInt(Utils.replaceNull(request.getParameter("id").toString()));
@@ -33,12 +34,12 @@
             userLoggedIn = true;
             userId = Integer.parseInt(session.getAttribute("user").toString());
             method = Utils.replaceNull(request.getParameter("method"), "Pearson");
-            movieServie = new MovieServie(movieId, K, method);
+            movieService = new MovieService(movieId, K, method);
         }else{
-            movieServie = new MovieServie(userId, movieId, K, method);
+            movieService = new MovieService(userId, movieId, K, method);
         }
-        movie = movieServie.getMovie();
-        relatedMovies = movieServie.getRelatedMovieList();
+        movie = movieService.getMovie();
+        relatedMovies = movieService.getRelatedMovieList();
     }catch (Exception e){
         out.println(e);
     }

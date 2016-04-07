@@ -13,7 +13,7 @@ import java.util.stream.Stream;
 /**
  * Created by Araja Jyothi Babu on 07-Apr-16.
  */
-public class MovieServie {
+public class MovieService {
 
     private MovieRenderModel movie;
     private DB db;
@@ -21,7 +21,7 @@ public class MovieServie {
     private static FIS fis;
     private ArrayList<MovieRenderModel> relatedMovieList;
 
-    public MovieServie(int movieId, int K, String method) throws Exception{
+    public MovieService(int movieId, int K, String method) throws Exception{
         db = new DB();
         dao = new OracleDAO(db);
         MovieDataService movieDataService = new MovieDataService(dao);
@@ -31,7 +31,7 @@ public class MovieServie {
         relatedMovieList = fis.relatedMovies(movieId, K, method);
     }
 
-    public MovieServie(int userId, int movieId, int K, String method) throws Exception{
+    public MovieService(int userId, int movieId, int K, String method) throws Exception{
         db = new DB();
         dao = new OracleDAO(db);
         RatingDataService ratingDataService = new RatingDataService(dao);
