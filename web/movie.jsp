@@ -27,9 +27,9 @@
             userLoggedIn = true;
             userId = Integer.parseInt(session.getAttribute("user").toString());
             method = Utils.replaceNull(request.getParameter("method"), "Pearson");
-            movieService = new MovieService(movieId, K, method);
-        }else{
             movieService = new MovieService(userId, movieId, K, method);
+        }else{
+            movieService = new MovieService(movieId, K, method);
         }
         movie = movieService.getMovie();
         relatedMovies = movieService.getRelatedMovieList();
@@ -103,7 +103,7 @@
                             //alert("Rating failed");
                         //do something after rating
                     }).fail( function(){
-                        $(this).rating(); //FIXME: need to empty stars in failed condition
+                        //$(this).rating(); //FIXME: need to empty stars in failed condition
                     });
             <%
                 }else{
