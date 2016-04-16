@@ -5,16 +5,21 @@
   Time: 4:10 PM
   To change this template use File | Settings | File Templates.
 --%>
-<% if(request.getParameter("attempt").equals(1)) { %>
-    <div data-alert class="alert-box warning round">
+<% if(session.getAttribute("fail") != null) { %>
+    <div data-alert class="alert-box warning round large-centered text-center">
         Invalid Password..!
         <a href="#" class="close">&times</a>
     </div>
-<% } %>
+<%
+        session.removeAttribute("fail");
+    } %>
 
-<% if(request.getParameter("login").equals(2)) { %>
-    <div data-alert class="alert-box warning round">
+<% if(session.getAttribute("new") != null) { %>
+    <div data-alert class="alert-box success round large-centered text-center">
         Registration Successful..!
         <a href="#" class="close">&times</a>
     </div>
-<% } %>
+<%
+        session.removeAttribute("new");
+    }
+%>

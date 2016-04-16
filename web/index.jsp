@@ -39,6 +39,8 @@
             </div>
         </div>
 
+<jsp:include page="includes/alerts.jsp" />
+
         <div class="row">
             <div class="large-12 columns" style="padding-left:20px; padding-right:20px;">
                 <div class="row">
